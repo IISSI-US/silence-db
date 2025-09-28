@@ -10,19 +10,20 @@ API_PREFIX = "/api/v1"
 
 # Cada BD tiene una cadena de conexión y un puerto HTTP para despleagar el API
 
-# AnimalesDB
-HTTP_PORT = 8083
+# EspectaculosDB
+HTTP_PORT = 8089
 # Database connection details
 DB_CONN = {
     "host": "127.0.0.1",
     "port": 3306,
     "username": "iissi_user",
     "password": "iissi$user",
-    "database": "AnimalesDB",
+    "database": "EspectaculosDB",
 }
 SQL_SCRIPTS = [
-    "Animales/createDB.sql",
-    "Animales/populateDB.sql",
+    "Espectaculos/createDB.sql",
+    "Espectaculos/populateDB.sql",
+    "Espectaculos/tFechaCompra.sql",
 ]
 
 

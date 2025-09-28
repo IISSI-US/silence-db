@@ -10,19 +10,31 @@ API_PREFIX = "/api/v1"
 
 # Cada BD tiene una cadena de conexión y un puerto HTTP para despleagar el API
 
-# AnimalesDB
-HTTP_PORT = 8083
+# EmpleadosDB
+HTTP_PORT = 8088
 # Database connection details
 DB_CONN = {
     "host": "127.0.0.1",
     "port": 3306,
     "username": "iissi_user",
     "password": "iissi$user",
-    "database": "AnimalesDB",
+    "database": "EmpleadosDB",
 }
 SQL_SCRIPTS = [
-    "Animales/createDB.sql",
-    "Animales/populateDB.sql",
+    "Empleados/createDB.sql",
+    "Empleados/populateDB.sql",
+    "Empleados/fAvgFee.sql",
+    "Empleados/fNumEmployees.sql",
+    "Empleados/fSumSalaries.sql",
+    "Empleados/pEquateFees.sql",
+    "Empleados/pInsertDepartment.sql",
+    "Empleados/pInsertEmployee.sql",
+    "Empleados/pRaiseFee.sql",
+    "Empleados/procedures.sql",
+    "Empleados/tChangeFee.sql",
+    "Empleados/tDefaultStartDate.sql",
+    "Empleados/tMaxEmployeesDepartment.sql",
+    "Empleados/tSelfBoss.sql",
 ]
 
 
