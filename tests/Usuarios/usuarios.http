@@ -1,0 +1,82 @@
+@BASE = http://127.0.0.1:8080/api/v1
+
+### Cada petición tiene que empezar con 3 almohadillas.
+# Positivo: Crear un nuevo usuario con todos los datos correctos
+# según las reglas de negocio
+POST {{BASE}}/usuarios 
+Content-Type: application/json 
+
+{
+	"nombre": "Nuevo usuario",
+	"genero": "MASCULINO",
+	"edad": 23,
+	"email": "nuevo@mail.com"
+}
+
+###
+# Positivo: Crear un nuevo usuario sin especificar el género.
+@name=test2
+POST {{BASE}}/usuarios 
+Content-Type: application/json 
+
+{
+	"nombre": "Usuario sin genero",
+	"edad": 54,
+	"email": "singenero@mail.com"
+}
+
+###
+# Negativo: Crear un nuevo usuario sin nombre.
+POST {{BASE}}/usuarios 
+Content-Type: application/json 
+
+{
+	"genero": "MASCULINO",
+	"edad": 23,
+	"email": "sinnombre@mail.com"
+}
+
+###
+# Negativo: Crear un nuevo usuario sin edad.
+POST {{BASE}}/usuarios 
+Content-Type: application/json 
+
+{
+	"nombre": "Usuario sin edad",
+	"genero": "MASCULINO",
+	"email": "sinedad@mail.com"
+}
+
+### 
+# Negativo: Crear un nuevo usuario sin email.
+POST {{BASE}}/usuarios 
+Content-Type: application/json 
+
+{
+	"nombre": "Usuario sin email",
+	"genero": "MASCULINO",
+	"edad": 54
+}
+
+### 
+# Negativo: Crear un nuevo usuario con el correo repetido.
+POST {{BASE}}/usuarios 
+Content-Type: application/json 
+
+{
+	"nombre": "Nuevo usuario",
+	"genero": "MASCULINO",
+	"edad": 23,
+	"email": "nuevo@mail.com"
+}
+### 
+# Negativo: Crear un nuevo usuario menor de edad.
+POST {{BASE}}/usuarios 
+Content-Type: application/json 
+
+{
+	"nombre": "Usuario menor",
+	"genero": "OTRO",
+	"edad": 12,
+	"email": "menor@mail.com"
+}
