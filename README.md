@@ -142,7 +142,7 @@ Cada carpeta en `sql/` contiene:
 - Archivos adicionales: funciones, procedimientos, triggers específicos
 - Archivo `loadDB.sql` para crear la BD desde la consola con el comando `mysql -h 127.0.0.1 -P 3306 -u root -p < loadDB.sql `.
 - Script bash `loadAllDB.sh` que crea todas las bases de datos.
-- IMPORTANTE: Las BBDD se crean con ell usuario root, y después el usuario `iissi_user` debe tener acceso total a las mismas.
+- IMPORTANTE: Las BBDD se crean con el usuario root, y después el usuario `iissi_user` debe tener acceso total a las mismas.
 
 ## 🧪 Testing
 Los tests HTTP automatizados están disponibles en `tests/auto/` y se generan automáticamente para cada endpoint.
