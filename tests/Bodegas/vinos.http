@@ -1,0 +1,173 @@
+
+@BASE = http://127.0.0.1:8081/api/v1
+
+###
+GET {{BASE}}/jovenes
+###
+GET {{BASE}}/crianzas
+
+### 1. Crear un nuevo vino Joven con todos los datos correctos según las reglas de negocio
+POST {{BASE}}/jovenes 
+Content-Type: application/json 
+
+{
+	"jovenId": "j10",
+	"bodegaId": 1,
+	"nombre": "Vino nuevo Joven",
+	"grados": 11,
+	"tiempoBarrica": 0,
+	"tiempoBotella": 12
+} 
+
+### 2. Crear un nuevo vino Crianza con todos los datos correctos según las reglas de negocio
+POST {{BASE}}/crianzas
+Content-Type: application/json 
+
+{
+	"crianzaId": "c10",
+	"bodegaId": 1,
+	"nombre": "Vino nuevo Crianza",
+	"grados": 11,
+	"tiempoBarrica": 12,
+	"tiempoBotella": 12
+}
+
+### 3. Crear un nuevo vino Joven sin nombre.
+POST {{BASE}}/jovenes
+Content-Type: application/json 
+
+{
+	"jovenId": "j11",
+	"bodegaId": 1,
+	"grados": 11,
+	"tiempoBarrica": 0,
+	"tiempoBotella": 12
+}
+
+### 4. Crear un nuevo vino Crianza sin nombre.
+POST {{BASE}}/crianzas
+Content-Type: application/json 
+
+{
+	"crianzaId": "c10",
+	"bodegaId": 1,
+	"grados": 11,
+	"tiempoBarrica": 12,
+	"tiempoBotella": 12
+}
+
+### 5. Crear un nuevo vino Joven con el nombre repetido.
+POST {{BASE}}/jovenes
+Content-Type: application/json 
+
+{
+	"jovenId": "j11",
+	"bodegaId": 1,
+	"nombre": "Vino nuevo Joven",
+	"grados": 11,
+	"tiempoBarrica": 0,
+	"tiempoBotella": 12
+}
+
+
+### 6. Crear un nuevo vino Crianza con el nombre repetido.
+POST {{BASE}}/crianzas
+Content-Type: application/json 
+
+{
+	"crianzaId": "c11",
+	"bodegaId": 1,
+	"nombre": "Vino nuevo Crianza",
+	"grados": 11,
+	"tiempoBarrica": 12,
+	"tiempoBotella": 12
+}
+
+### 7. Crear un nuevo vino Joven sin grados de alcohol.
+POST {{BASE}}/jovenes
+Content-Type: application/json 
+
+{
+	"jovenId": "j11",
+	"bodegaId": 1,
+	"nombre": "Vino nuevo Joven",
+	"tiempoBarrica": 0,
+	"tiempoBotella": 12
+}
+
+
+### 8. Crear un nuevo vino Crianza sin grados de alcohol.
+POST {{BASE}}/crianzas
+Content-Type: application/json 
+
+{
+	"crianzaId": "c11",
+	"bodegaId": 1,
+	"nombre": "Vino nuevo Crianza",
+	"tiempoBarrica": 12,
+	"tiempoBotella": 12
+}	
+
+### 9. Crear un nuevo vino Joven con graduación incorrecta.
+POST {{BASE}}/jovenes
+Content-Type: application/json 
+
+{
+	"jovenId": "j11",
+	"bodegaId": 1,
+	"nombre": "Vino graduación incorrecta",
+	"grados": 9,
+	"tiempoBarrica": 0,
+	"tiempoBotella": 12
+}
+
+### 10. Crear un nuevo vino Crianza con graduación incorrecta.
+POST {{BASE}}/crianzas
+Content-Type: application/json 
+
+{
+	"bodegaId": 1,
+	"nombre": "Vino nuevo Crianza",
+	"grados": 9,
+	"tiempoBarrica": 12,
+	"tiempoBotella": 12
+}
+
+### 10. Crear un nuevo vino Crianza con graduación incorrecta.
+POST {{BASE}}/crianzas
+Content-Type: application/json 
+
+{
+	"bodegaId": 1,
+	"nombre": "Vino nuevo Crianza",
+	"grados": 16,
+	"tiempoBarrica": 12,
+	"tiempoBotella": 12
+}
+
+
+### 11. Crear un nuevo vino Joven sin bodega.
+POST {{BASE}}/jovenes
+Content-Type: application/json 
+
+{
+	"jovenId": "j11",
+	"nombre": "Vino nuevo Joven",
+	"grados": 10,
+	"tiempoBarrica": 0,
+	"tiempoBotella": 12
+}
+
+
+### 12. Crear un nuevo vino Crianza sin bodega.
+POST {{BASE}}/crianzas
+Content-Type: application/json 
+
+{
+	"crianzaId": "c11",
+	"nombre": "Vino nuevo Crianza",
+	"grados": 10,
+	"tiempoBarrica": 12,
+	"tiempoBotella": 12
+}
+

@@ -1,0 +1,40 @@
+
+@BASE = http://127.0.0.1:8080/api/v1
+
+### 
+GET {{BASE}}/bodegas
+
+### 1. Crear una nueva bodega con todos los datos correctos según las reglas de negocio
+POST {{BASE}}/bodegas 
+Content-Type: application/json 
+
+{
+	"nombre": "Bodega la Nueva",
+	"denominacionOrigen": "Rias Baixas"
+} 
+
+### 2. Crear una nueva bodega sin nombre.
+POST {{BASE}}/bodegas 
+Content-Type: application/json 
+
+{
+	"denominacionOrigen": "Rias Baixas"
+} 
+
+
+### 3. Crear una nueva bodega con el nombre repetido.
+POST {{BASE}}/bodegas 
+Content-Type: application/json 
+
+{
+	"nombre": "Bodega la Nueva",
+	"denominacionOrigen": "Rias Baixas"
+} 
+
+### 4. Crear una nueva bodega sin denominación de origen.
+POST {{BASE}}/bodegas 
+Content-Type: application/json 
+
+{
+	"nombre": "Bodega la Nueva"
+} 
