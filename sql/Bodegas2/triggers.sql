@@ -5,7 +5,7 @@
 --
 
 DELIMITER //
-CREATE OR REPLACE PROCEDURE pCheckIdDisjuntos
+CREATE OR REPLACE PROCEDURE p_check_id_disjuntos
 	(id1 VARCHAR(32), id2 VARCHAR(32))
 BEGIN
 	IF (id1 = id2) OR	(id1 = '' AND id2 = '') OR (id1 <> '' AND id2 <> '') THEN
@@ -16,19 +16,19 @@ END;
 DELIMITER ;
 
 DELIMITER //
-CREATE or REPLACE TRIGGER tBIVinosUvas 
-BEFORE INSERT ON VinosUvas FOR EACH ROW 
+CREATE or REPLACE TRIGGER t_bi_vinos_uvas 
+BEFORE INSERT ON vinos_uvas FOR EACH ROW 
 BEGIN
-	call pCheckIdDisjuntos(NEW.jovenId, NEW.crianzaId);
+	call p_check_id_disjuntos(NEW.joven_id, NEW.crianza_id);
 END
 //
 DELIMITER ;
 
 DELIMITER //
-CREATE or REPLACE TRIGGER tBUVinosUvas 
-BEFORE UPDATE ON VinosUvas FOR EACH ROW 
+CREATE or REPLACE TRIGGER t_bu_vinos_uvas 
+BEFORE UPDATE ON vinos_uvas FOR EACH ROW 
 BEGIN
-	call pCheckIdDisjuntos(NEW.jovenId, NEW.crianzaId);
+	call p_check_id_disjuntos(NEW.joven_id, NEW.crianza_id);
 END
 //
 DELIMITER ;

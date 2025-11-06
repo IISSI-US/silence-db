@@ -9,79 +9,79 @@ CREATE DATABASE BodegasDB;
 USE BodegasDB;
 
 DELIMITER //
-CREATE OR REPLACE PROCEDURE pCreateDB()
+CREATE OR REPLACE PROCEDURE p_create_db()
 BEGIN
-	CREATE OR REPLACE TABLE Bodegas (
-	   bodegaId INT NOT NULL AUTO_INCREMENT,
+	CREATE OR REPLACE TABLE bodegas (
+	   bodega_id INT NOT NULL AUTO_INCREMENT,
 	   nombre VARCHAR(255) NOT NULL,
-	   denominacionOrigen VARCHAR(255) NOT NULL,
-		PRIMARY KEY (bodegaId),
+	   denominacion_origen VARCHAR(255) NOT NULL,
+		PRIMARY KEY (bodega_id),
 		CONSTRAINT RN_1_Unicidad UNIQUE (nombre)
 	);
 	
-	CREATE OR REPLACE TABLE Vinos (
-	   vinoId INT NOT NULL AUTO_INCREMENT,
-	   bodegaId INT NOT NULL,
+	CREATE OR REPLACE TABLE vinos (
+	   vino_id INT NOT NULL AUTO_INCREMENT,
+	   bodega_id INT NOT NULL,
 	   nombre VARCHAR(255) NOT NULL,
 	   grados DECIMAL(5, 2) NOT NULL,
-		PRIMARY KEY (vinoId),
+		PRIMARY KEY (vino_id),
 		UNIQUE (nombre),
-	   FOREIGN KEY (bodegaId) REFERENCES Bodegas(bodegaId),
+	   FOREIGN KEY (bodega_id) REFERENCES bodegas(bodega_id),
 		CONSTRAINT RN_3_Grados
 			CHECK (grados >= 10 AND grados <= 15)
 	);
 	
-	CREATE OR REPLACE TABLE Jovenes (
-	   vinoId INT NOT NULL,
-		tiempoBarrica INT NOT NULL,
-		tiempoBotella INT NOT NULL,
-		PRIMARY KEY (vinoId),
-	   FOREIGN KEY (vinoId) REFERENCES Vinos(vinoId),
+	CREATE OR REPLACE TABLE jovenes (
+	   vino_id INT NOT NULL,
+		tiempo_barrica INT NOT NULL,
+		tiempo_botella INT NOT NULL,
+		PRIMARY KEY (vino_id),
+	   FOREIGN KEY (vino_id) REFERENCES vinos(vino_id),
 		CONSTRAINT RN_2_TiempoCrianza 
-			CHECK (tiempoBarrica <=6 AND tiempoBarrica + tiempoBotella <=12 )
+			CHECK (tiempo_barrica <=6 AND tiempo_barrica + tiempo_botella <=12 )
 	);
 	
-	CREATE OR REPLACE TABLE Crianzas (
-	   vinoId INT NOT NULL,
-		tiempoBarrica INT NOT NULL,
-		tiempoBotella INT NOT NULL,
-		PRIMARY KEY (vinoId),
-	   FOREIGN KEY (vinoId) REFERENCES Vinos(vinoId),
+	CREATE OR REPLACE TABLE crianzas (
+	   vino_id INT NOT NULL,
+		tiempo_barrica INT NOT NULL,
+		tiempo_botella INT NOT NULL,
+		PRIMARY KEY (vino_id),
+	   FOREIGN KEY (vino_id) REFERENCES vinos(vino_id),
 		CONSTRAINT RN_2_TiempoCrianza 
-		 	CHECK (tiempoBarrica >=6 AND tiempoBarrica + tiempoBotella >=24 )
+		 	CHECK (tiempo_barrica >=6 AND tiempo_barrica + tiempo_botella >=24 )
 	);
 	
-	CREATE OR REPLACE TABLE Uvas (
-	   uvaId INT NOT NULL AUTO_INCREMENT,
+	CREATE OR REPLACE TABLE uvas (
+	   uva_id INT NOT NULL AUTO_INCREMENT,
 	   nombre VARCHAR(255) NOT NULL,
-		PRIMARY KEY (uvaId),
+		PRIMARY KEY (uva_id),
 	   CONSTRAINT RN_1_Unicidad UNIQUE (nombre)
 	);
 	
-	CREATE OR REPLACE TABLE Cosechas (
-	   cosechaId INT AUTO_INCREMENT ,
-	   vinoId INT NOT NULL,
+	CREATE OR REPLACE TABLE cosechas (
+	   cosecha_id INT AUTO_INCREMENT ,
+	   vino_id INT NOT NULL,
 	   año YEAR NOT NULL,
 	   calidad VARCHAR(255) NOT NULL,
-		PRIMARY KEY (cosechaId),
-	   FOREIGN KEY (vinoId) REFERENCES Vinos(vinoId)
+		PRIMARY KEY (cosecha_id),
+	   FOREIGN KEY (vino_id) REFERENCES vinos(vino_id)
 			ON DELETE CASCADE, 
-		UNIQUE (cosechaId, año)
+		UNIQUE (cosecha_id, año)
 	);
 	
-	CREATE OR REPLACE TABLE VinosUvas (
-	    vinoUvaId INT AUTO_INCREMENT PRIMARY KEY,
-	    vinoId INT NOT NULL,
-	    uvaId INT NOT NULL,
-	    UNIQUE (vinoId, uvaId),
-	    FOREIGN KEY (vinoId) REFERENCES Vinos(vinoId),
-	    FOREIGN KEY (uvaId) REFERENCES Uvas(uvaId)
+	CREATE OR REPLACE TABLE vinos_uvas (
+	    vino_uva_id INT AUTO_INCREMENT PRIMARY KEY,
+	    vino_id INT NOT NULL,
+	    uva_id INT NOT NULL,
+	    UNIQUE (vino_id, uva_id),
+	    FOREIGN KEY (vino_id) REFERENCES vinos(vino_id),
+	    FOREIGN KEY (uva_id) REFERENCES uvas(uva_id)
 	);
 END;
 //
 DELIMITER ;
 
-CALL pCreateDB();
+CALL p_create_db();
 
 
 
