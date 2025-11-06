@@ -9,14 +9,14 @@
 USE PedidosDB;
 -- Procedimiento para cargar datos iniciales (útil para tests)
 DELIMITER //
-CREATE OR REPLACE PROCEDURE pPopulateDB()
+CREATE OR REPLACE PROCEDURE p_populate_db()
 BEGIN
-	DELETE FROM Orders;
-	DELETE FROM Products;
-	DELETE FROM Users;
+	DELETE FROM orders;
+	DELETE FROM products;
+	DELETE FROM users;
 
 	-- Datos de Usuarios 
-	INSERT INTO Users(name, province, startDate) 
+	INSERT INTO users(name, province, start_date) 
 	VALUES 
 		('David Ruiz', 'Sevilla', '2018-05-18'),
 		('Marta López', 'Málaga', '2018-06-12'),
@@ -28,7 +28,7 @@ BEGIN
 		('Carlos Arévalo', 'Málaga', '2018-09-07');
 
 	-- Datos de Productos 
-	INSERT INTO Products(description, price, stock) 
+	INSERT INTO products(description, price, stock) 
 	VALUES
 		('Mi Band 3', 19.90, 50),
 		('Mi Band 4', 29.90, 20),
@@ -38,7 +38,7 @@ BEGIN
 		('Rueda delantera de respuesto Mi Scooter', 59.90, 50);
 		
 	-- Datos de Pedidos 
-	INSERT INTO Orders(userId, productId, amount, purchaseDate) 
+	INSERT INTO orders(user_id, product_id, amount, purchase_date) 
 	VALUES 
 		(1, 1, 2, '2019-05-13'),
 		(1, 3, 2, '2019-05-13'),
@@ -58,5 +58,5 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL pPopulateDB();
+CALL p_populate_db();
 
