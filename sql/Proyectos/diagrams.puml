@@ -1,0 +1,43 @@
+@startuml proyectos-dc
+    class Proyecto {
+        nombre
+        descripción
+        presupuesto
+    }
+    class Empleado {
+        dni
+        nombre
+    }
+    class Tarea {
+        id
+        descripción
+        estimación
+    }
+    class Rol {
+        nombre : Cargo
+    }
+    class Cargo <<Enumeration>> {
+        Director
+        Analista
+        ResponsablePruebas
+        ...
+    }
+    class PeriodoTarea {
+        fInicio
+        fFin
+    }
+    class PeriodoCargo {
+        fInicio
+        fFin [0..1]
+    }
+
+
+    ' Asociaciones
+    Proyecto *-- "{ordered} *" Tarea : tiene
+    Proyecto *-- "*" Rol : "tiene"
+    Tarea *-- " * {ordered}" Tarea : compuestaPor
+    Empleado "0..1" -right- "*" Tarea :  esResponsableDe
+    (Empleado, Tarea) .. PeriodoTarea
+    Rol "*" -right- "*" Empleado :  correspondeA
+    (Empleado, Rol) .. PeriodoCargo
+@enduml

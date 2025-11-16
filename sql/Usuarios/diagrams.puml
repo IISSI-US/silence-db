@@ -1,0 +1,28 @@
+@startuml usuarios-dc
+
+    'Las Clases y Enumerados que están definidas en archivos independientes
+Enum Género << Enumerado >>{
+    Masculino
+    Femenino
+    Otros
+} 
+    Class Usuario << Entidad >>{
+        nombre: String
+        género: Género
+        edad: Integer
+        email: String
+    } 
+
+    'Ocultamos el compartimento para los métodos
+    hide methods
+
+    'Agregamos notas al modelo
+    Note left of Usuario
+        RN-1: Los usuarios del sistema
+        deben ser mayores de edad.
+    End Note
+    Note bottom of Usuario
+        RN-2: No pueden existir emails 
+        duplicados  
+    End Note
+@enduml

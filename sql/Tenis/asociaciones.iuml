@@ -1,0 +1,10 @@
+  ' Herencia
+  Persona <|-- Tenista
+  Persona <|-- Árbitro
+
+  ' Relaciones
+  Árbitro "1" -- "0..*" Partido : arbitra >
+  Tenista "2" -- "1..*" Partido : juega >
+  Tenista "1" -- "*" Partido : gana >
+  Partido *-- "1..5 {orden}" Set  
+  Tenista "1" -- "*" Set : gana >

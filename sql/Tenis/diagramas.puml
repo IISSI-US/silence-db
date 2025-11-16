@@ -1,0 +1,247 @@
+@startuml caso-base-torneo-tenis
+  title Torneo de Tenis (Caso Base)
+
+  hide empty members
+  hide circle
+  
+  !include nota.iuml
+  !include clases.iuml
+
+  'skinparam linetype ortho
+  class Partido {
+    torneo: String
+  }
+
+  !include asociaciones.iuml
+
+@enduml
+
+@startuml variante-01-torneo-como-entidad
+  title Variante 1: Torneo como Entidad
+
+  !include nota.iuml
+  !include clases.iuml
+
+  hide empty members
+  hide circle
+  
+  ' skinparam linetype ortho
+
+  class Partido #FFEB3B{
+    
+  }
+
+  class Torneo #FFEB3B{
+    nombre: String
+    año: Integer
+    categoría: String
+    premioPrincipal: Float
+  }
+
+  !include asociaciones.iuml
+  
+  ' Asociaciones adicionales
+  Torneo *-- "1..*" Partido : contiene >
+  
+  ' Restricciones adicionales
+  note as N2 #FFEB3B
+    Restricciones adicionales:
+      - RA-01: Categoría del torneo debe ser
+        "Grand Slam" o "ATP 1000", "ATP 500" o "ATP 250".
+      - RA-02: Todos los partidos de un torneo deben
+        jugarse en el mismo año del torneo.
+  end note
+
+@enduml
+
+@startuml variante-02-partidos-parejas
+  title Variante 2: Partidos entre Parejas
+
+  !include nota.iuml
+  !include clases.iuml
+
+  hide empty members
+  hide circle
+  
+  'skinparam linetype ortho
+
+  class Participante #FFEB3B{
+  }
+
+  class Pareja #FFEB3B{
+    rankingDobles: Integer
+  }
+
+  class Partido {
+    torneo: String
+  }
+
+  ' Herencia
+  Persona <|-- Tenista
+  Persona <|-- Árbitro : {completa,disjunta}
+  Participante <|-- Tenista
+  Participante <|-- Pareja : {completa,disjunta}
+
+  ' Relaciones
+  Árbitro "1" -- "0..*" Partido : arbitra >
+  Tenista "2" -- "1..*" Pareja : forma >
+  
+  ' Relaciones con Participante (abstracto)
+  Participante "2" -- "0..*" Partido : juega >
+  Participante "1" -- "*" Partido : gana >
+  Partido *-- "1..* {orden}" Set  
+  Participante "1" -- "*" Set : gana >
+
+  'Agregar notas
+  note as N2 #FFEB3B
+    Restricciones adicionales:
+      - RA-01: Una pareja debe estar formada por
+        dos tenistas distintos.
+      - RA-02: El ranking de dobles de una pareja
+        es la media del ranking de sus tenistas.
+  end note
+@enduml
+
+@startuml variante-03-con-entrenador
+  title Variante 3: Con Entrenador como extensión de Persona
+
+  !include nota.iuml
+  !include clases.iuml
+
+  hide empty members
+  hide circle
+  
+  'skinparam linetype ortho
+
+  class Entrenador #FFEB3B{
+    experiencia: Integer
+    especialidad: String
+  }
+
+  class Partido {
+    torneo: String
+  }
+
+  class Tenista  #FFEB3B {
+    activo: Boolean
+  }
+
+  !include asociaciones.iuml
+  Persona <|-- Entrenador 
+
+  ' Relaciones
+  Entrenador "0..1" -- "0..*" Tenista : entrena >
+
+  'Agregar notas
+  note as N2 #FFEB3B
+    Restricciones adicionales:
+      - RA-01: La especialidad de un entrenador debe ser
+      "Individual" o "Dobles".
+      - RA-02: Un entrenador ha podido ser tenista 
+      con anterioridad. Entidades Tenistas y Entrenadores
+      pueden solaparse.
+  end note
+@enduml
+
+@startuml variante-04-superficie
+  title Variante 4: Superficie de Juego
+
+  !include nota.iuml
+  !include clases.iuml
+
+  hide empty members
+  hide circle
+  'skinparam linetype ortho
+
+  class Partido #FFEB3B{
+    torneo: String
+    superficie: String
+  }
+
+  class Tenista #FFEB3B{
+    superficie: String
+  }
+
+  !include asociaciones.iuml
+
+  note as N4 #FFEB3B
+    Restricciones adicionales:
+      - RA-01: Los tipos de superficie válidos 
+        son "Tierra" o "Hierba".
+      - RA-02: la superficies preferida de un tenista 
+        debe coincidir con la superficie de los partidos
+        que juega.
+  end note
+@enduml
+
+@startuml variante-05-patrocinador
+  title Variante 5: Patrocinadores
+
+  !include nota.iuml
+  !include clases.iuml
+
+  hide empty members
+  hide circle
+  'skinparam linetype ortho
+
+  class Patrocinador #FFEB3B{
+    nombre: String
+  }
+
+  class Partido {
+    torneo: String
+  }
+
+  class Patrocinio #FFEB3B{
+    cuantía: Float
+    inicio: Date
+    fin: Date
+  }
+  Patrocinador "0..*" -- "0..*" Tenista : patrocina >
+  (Patrocinador, Tenista) -- "1" Patrocinio 
+
+  !include asociaciones.iuml
+
+  note as N5 #FFEB3B
+    Restricciones adicionales:
+      - RA-01: las fechas de inicio y fin del 
+        patrocinio deben ser coherentes (inicio < fin).
+      - RA-02: La cuantía del patrocinio de tenistas
+        del top-10 deber ser al menos 1.000.000. 
+  end note
+@enduml
+
+@startuml variante-06-historico-ranking
+  title Variante 6: Histórico de Rankings
+
+  !include nota.iuml
+  !include clases.iuml
+
+  hide empty members
+  hide circle
+  'skinparam linetype ortho
+
+  class Partido{
+    torneo: String
+  }
+
+  class Ranking #FFEB3B{
+    fecha: Date
+    posición: Integer
+  }
+
+  Tenista "1" -- "0..*" Ranking : historial >
+
+  !include asociaciones.iuml
+
+  note as N6 #FFEB3B
+    Restricciones adicionales:
+      - RA-01: No puede haber dos rankings con la 
+        misma fecha para un mismo tenista.
+      -RA-02: La posición del ranking no puede  
+        cambiar más de 50 puestos entre dos fechas
+        consecutivas.
+  end note
+@enduml
+
+
