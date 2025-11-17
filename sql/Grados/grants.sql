@@ -51,9 +51,9 @@ GRANT INSERT, UPDATE ON GradesDB.grades TO 'role_teacher';
 
 GRANT SELECT ON GradesDB.* TO 'role_student';
 
-CREATE USER IF NOT EXISTS 'admin_grados'@'%' IDENTIFIED BY 'Temp123!';
-CREATE USER IF NOT EXISTS 'teacher_grados'@'%' IDENTIFIED BY 'Temp123!';
-CREATE USER IF NOT EXISTS 'student_grados'@'%' IDENTIFIED BY 'Temp123!';
+CREATE USER IF NOT EXISTS 'admin_grados'@'%' IDENTIFIED BY 'druiz';
+CREATE USER IF NOT EXISTS 'teacher_grados'@'%' IDENTIFIED BY 'inmahernandez';
+CREATE USER IF NOT EXISTS 'student_grados'@'%' IDENTIFIED BY 'david.romero';
 
 GRANT 'role_admin' TO 'admin_grados'@'%';
 GRANT 'role_teacher' TO 'teacher_grados'@'%';
