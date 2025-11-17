@@ -1,0 +1,127 @@
+
+### This is an auto-generated test suite, it needs to be completed with valid data.
+### These are not all tests you need, more of them should be created to evaluate the functional
+### requirements of your project. These tests only test the CRUD endpoints of the entity.
+### Silence is a DEAL research team project, more info about us in https://deal.us.es
+@BASE = http://127.0.0.1:8080/api/v1
+
+### Auxiliary query
+### Positive test
+### Test 00: Get all existing professors
+### This query is used in several of the below tests it should be executed first.
+# @name professors
+GET {{BASE}}/professors
+
+### Login a(n) credentials and save the generated token 
+### This token is used in several of the below tests it should be executed second.
+# @name login
+POST {{BASE}}/login 
+Content-Type: application/json 
+
+{ 
+	"email": ###REPLACE###,
+	"password": ###REPLACE###
+}
+
+###
+@token = {{login.response.body.sessionToken}}
+
+
+### TESTS BEGIN
+
+### Test 01: Get one existing professors by its id.
+### positive test 
+@proId = {{professors.response.body.0.professor_id}}
+GET {{BASE}}/professors/{{proId}} 
+Content-Type: application/json 
+
+
+### Test 02: Try get one existing professors by its nonexistent id.
+### negative test 
+GET {{BASE}}/professors/999999999
+Content-Type: application/json 
+
+
+### Test 03: Add a new professors successfully
+### Positive test 
+### We assume that the token has been aquired by the login request.
+# @name newprofessors
+POST {{BASE}}/professors 
+Content-Type: application/json 
+Token: {{token}} 
+
+{
+	"category": ###REPLACE###
+} 
+
+### Check the created professors
+
+@newprofessorsid = {{newprofessors.response.body.lastId}}
+GET {{BASE}}/professors/{{newprofessorsid}}
+Content-Type: application/json 
+
+### Test 04: Add a new professors without a session token
+### Negative test 
+POST {{BASE}}/professors 
+Content-Type: application/json 
+
+{ 
+	"category": ###REPLACE###
+}
+
+### Test 05: Modify an existing professors 
+### Positive test 
+@proId = {{professors.response.body.0.professor_id}} 
+PUT {{BASE}}/professors/{{proId}} 
+Content-Type: application/json 
+Token: {{token}} 
+
+{ 
+	"category": ###REPLACE###
+}
+
+### Check the modified professors
+
+GET {{BASE}}/professors/{{newprofessorsid}}
+Content-Type: application/json 
+
+### Test 06: Try to modify an existing professors without a session token
+### Negative test
+@proId = {{professors.response.body.0.professor_id}}
+PUT {{BASE}}/professors/{{proId}}
+Content-Type: application/json
+
+{
+	"category": ###REPLACE###
+}
+
+### Test 07: Delete an existing professors
+### Positive test
+
+### Create a new professors, which we will delete
+# @name createdproToDelete
+POST {{BASE}}/professors
+Content-Type: application/json
+Token: {{token}}
+
+{
+	"category": ###REPLACE###
+}
+
+### Check the created professors
+@prodelId = {{createdproToDelete.response.body.lastId}}
+GET {{BASE}}/professors/{{prodelId}}
+Content-Type: application/json 
+
+### Delete the professors
+DELETE {{BASE}}/professors/{{prodelId}}
+Token: {{token}}
+
+### Check the deleted professors
+GET {{BASE}}/professors/{{prodelId}}
+Content-Type: application/json 
+
+### Test 08: Try to delete a professors without a session token
+### Negative test
+DELETE {{BASE}}/professors/{{proId}}
+

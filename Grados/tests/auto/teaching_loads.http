@@ -1,0 +1,132 @@
+
+### This is an auto-generated test suite, it needs to be completed with valid data.
+### These are not all tests you need, more of them should be created to evaluate the functional
+### requirements of your project. These tests only test the CRUD endpoints of the entity.
+### Silence is a DEAL research team project, more info about us in https://deal.us.es
+@BASE = http://127.0.0.1:8080/api/v1
+
+### Auxiliary query
+### Positive test
+### Test 00: Get all existing teaching_loads
+### This query is used in several of the below tests it should be executed first.
+# @name teaching_loads
+GET {{BASE}}/teaching_loads
+
+### Login a(n) credentials and save the generated token 
+### This token is used in several of the below tests it should be executed second.
+# @name login
+POST {{BASE}}/login 
+Content-Type: application/json 
+
+{ 
+	"email": ###REPLACE###,
+	"password": ###REPLACE###
+}
+
+###
+@token = {{login.response.body.sessionToken}}
+
+
+### TESTS BEGIN
+
+### Test 01: Get one existing teaching_loads by its id.
+### positive test 
+@teaId = {{teaching_loads.response.body.0.professor_id}}
+GET {{BASE}}/teaching_loads/{{teaId}} 
+Content-Type: application/json 
+
+
+### Test 02: Try get one existing teaching_loads by its nonexistent id.
+### negative test 
+GET {{BASE}}/teaching_loads/999999999
+Content-Type: application/json 
+
+
+### Test 03: Add a new teaching_loads successfully
+### Positive test 
+### We assume that the token has been aquired by the login request.
+# @name newteaching_loads
+POST {{BASE}}/teaching_loads 
+Content-Type: application/json 
+Token: {{token}} 
+
+{
+	"group_id": ###REPLACE###,
+	"credits": ###REPLACE###
+} 
+
+### Check the created teaching_loads
+
+@newteaching_loadsid = {{newteaching_loads.response.body.lastId}}
+GET {{BASE}}/teaching_loads/{{newteaching_loadsid}}
+Content-Type: application/json 
+
+### Test 04: Add a new teaching_loads without a session token
+### Negative test 
+POST {{BASE}}/teaching_loads 
+Content-Type: application/json 
+
+{ 
+	"group_id": ###REPLACE###,
+	"credits": ###REPLACE###
+}
+
+### Test 05: Modify an existing teaching_loads 
+### Positive test 
+@teaId = {{teaching_loads.response.body.0.professor_id}} 
+PUT {{BASE}}/teaching_loads/{{teaId}} 
+Content-Type: application/json 
+Token: {{token}} 
+
+{ 
+	"group_id": ###REPLACE###,
+	"credits": ###REPLACE###
+}
+
+### Check the modified teaching_loads
+
+GET {{BASE}}/teaching_loads/{{newteaching_loadsid}}
+Content-Type: application/json 
+
+### Test 06: Try to modify an existing teaching_loads without a session token
+### Negative test
+@teaId = {{teaching_loads.response.body.0.professor_id}}
+PUT {{BASE}}/teaching_loads/{{teaId}}
+Content-Type: application/json
+
+{
+	"group_id": ###REPLACE###,
+	"credits": ###REPLACE###
+}
+
+### Test 07: Delete an existing teaching_loads
+### Positive test
+
+### Create a new teaching_loads, which we will delete
+# @name createdteaToDelete
+POST {{BASE}}/teaching_loads
+Content-Type: application/json
+Token: {{token}}
+
+{
+	"group_id": ###REPLACE###,
+	"credits": ###REPLACE###
+}
+
+### Check the created teaching_loads
+@teadelId = {{createdteaToDelete.response.body.lastId}}
+GET {{BASE}}/teaching_loads/{{teadelId}}
+Content-Type: application/json 
+
+### Delete the teaching_loads
+DELETE {{BASE}}/teaching_loads/{{teadelId}}
+Token: {{token}}
+
+### Check the deleted teaching_loads
+GET {{BASE}}/teaching_loads/{{teadelId}}
+Content-Type: application/json 
+
+### Test 08: Try to delete a teaching_loads without a session token
+### Negative test
+DELETE {{BASE}}/teaching_loads/{{teaId}}
+

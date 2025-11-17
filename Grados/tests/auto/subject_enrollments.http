@@ -1,0 +1,127 @@
+
+### This is an auto-generated test suite, it needs to be completed with valid data.
+### These are not all tests you need, more of them should be created to evaluate the functional
+### requirements of your project. These tests only test the CRUD endpoints of the entity.
+### Silence is a DEAL research team project, more info about us in https://deal.us.es
+@BASE = http://127.0.0.1:8080/api/v1
+
+### Auxiliary query
+### Positive test
+### Test 00: Get all existing subject_enrollments
+### This query is used in several of the below tests it should be executed first.
+# @name subject_enrollments
+GET {{BASE}}/subject_enrollments
+
+### Login a(n) credentials and save the generated token 
+### This token is used in several of the below tests it should be executed second.
+# @name login
+POST {{BASE}}/login 
+Content-Type: application/json 
+
+{ 
+	"email": ###REPLACE###,
+	"password": ###REPLACE###
+}
+
+###
+@token = {{login.response.body.sessionToken}}
+
+
+### TESTS BEGIN
+
+### Test 01: Get one existing subject_enrollments by its id.
+### positive test 
+@subId = {{subject_enrollments.response.body.0.student_id}}
+GET {{BASE}}/subject_enrollments/{{subId}} 
+Content-Type: application/json 
+
+
+### Test 02: Try get one existing subject_enrollments by its nonexistent id.
+### negative test 
+GET {{BASE}}/subject_enrollments/999999999
+Content-Type: application/json 
+
+
+### Test 03: Add a new subject_enrollments successfully
+### Positive test 
+### We assume that the token has been aquired by the login request.
+# @name newsubject_enrollments
+POST {{BASE}}/subject_enrollments 
+Content-Type: application/json 
+Token: {{token}} 
+
+{
+	"subject_id": ###REPLACE###
+} 
+
+### Check the created subject_enrollments
+
+@newsubject_enrollmentsid = {{newsubject_enrollments.response.body.lastId}}
+GET {{BASE}}/subject_enrollments/{{newsubject_enrollmentsid}}
+Content-Type: application/json 
+
+### Test 04: Add a new subject_enrollments without a session token
+### Negative test 
+POST {{BASE}}/subject_enrollments 
+Content-Type: application/json 
+
+{ 
+	"subject_id": ###REPLACE###
+}
+
+### Test 05: Modify an existing subject_enrollments 
+### Positive test 
+@subId = {{subject_enrollments.response.body.0.student_id}} 
+PUT {{BASE}}/subject_enrollments/{{subId}} 
+Content-Type: application/json 
+Token: {{token}} 
+
+{ 
+	"subject_id": ###REPLACE###
+}
+
+### Check the modified subject_enrollments
+
+GET {{BASE}}/subject_enrollments/{{newsubject_enrollmentsid}}
+Content-Type: application/json 
+
+### Test 06: Try to modify an existing subject_enrollments without a session token
+### Negative test
+@subId = {{subject_enrollments.response.body.0.student_id}}
+PUT {{BASE}}/subject_enrollments/{{subId}}
+Content-Type: application/json
+
+{
+	"subject_id": ###REPLACE###
+}
+
+### Test 07: Delete an existing subject_enrollments
+### Positive test
+
+### Create a new subject_enrollments, which we will delete
+# @name createdsubToDelete
+POST {{BASE}}/subject_enrollments
+Content-Type: application/json
+Token: {{token}}
+
+{
+	"subject_id": ###REPLACE###
+}
+
+### Check the created subject_enrollments
+@subdelId = {{createdsubToDelete.response.body.lastId}}
+GET {{BASE}}/subject_enrollments/{{subdelId}}
+Content-Type: application/json 
+
+### Delete the subject_enrollments
+DELETE {{BASE}}/subject_enrollments/{{subdelId}}
+Token: {{token}}
+
+### Check the deleted subject_enrollments
+GET {{BASE}}/subject_enrollments/{{subdelId}}
+Content-Type: application/json 
+
+### Test 08: Try to delete a subject_enrollments without a session token
+### Negative test
+DELETE {{BASE}}/subject_enrollments/{{subId}}
+

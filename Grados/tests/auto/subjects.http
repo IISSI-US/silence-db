@@ -1,0 +1,152 @@
+
+### This is an auto-generated test suite, it needs to be completed with valid data.
+### These are not all tests you need, more of them should be created to evaluate the functional
+### requirements of your project. These tests only test the CRUD endpoints of the entity.
+### Silence is a DEAL research team project, more info about us in https://deal.us.es
+@BASE = http://127.0.0.1:8080/api/v1
+
+### Auxiliary query
+### Positive test
+### Test 00: Get all existing subjects
+### This query is used in several of the below tests it should be executed first.
+# @name subjects
+GET {{BASE}}/subjects
+
+### Login a(n) credentials and save the generated token 
+### This token is used in several of the below tests it should be executed second.
+# @name login
+POST {{BASE}}/login 
+Content-Type: application/json 
+
+{ 
+	"email": ###REPLACE###,
+	"password": ###REPLACE###
+}
+
+###
+@token = {{login.response.body.sessionToken}}
+
+
+### TESTS BEGIN
+
+### Test 01: Get one existing subjects by its id.
+### positive test 
+@subId = {{subjects.response.body.0.subject_id}}
+GET {{BASE}}/subjects/{{subId}} 
+Content-Type: application/json 
+
+
+### Test 02: Try get one existing subjects by its nonexistent id.
+### negative test 
+GET {{BASE}}/subjects/999999999
+Content-Type: application/json 
+
+
+### Test 03: Add a new subjects successfully
+### Positive test 
+### We assume that the token has been aquired by the login request.
+# @name newsubjects
+POST {{BASE}}/subjects 
+Content-Type: application/json 
+Token: {{token}} 
+
+{
+	"degree_id": ###REPLACE###,
+	"subject_name": ###REPLACE###,
+	"acronym": ###REPLACE###,
+	"credits": ###REPLACE###,
+	"course": ###REPLACE###,
+	"subject_type": ###REPLACE###
+} 
+
+### Check the created subjects
+
+@newsubjectsid = {{newsubjects.response.body.lastId}}
+GET {{BASE}}/subjects/{{newsubjectsid}}
+Content-Type: application/json 
+
+### Test 04: Add a new subjects without a session token
+### Negative test 
+POST {{BASE}}/subjects 
+Content-Type: application/json 
+
+{ 
+	"degree_id": ###REPLACE###,
+	"subject_name": ###REPLACE###,
+	"acronym": ###REPLACE###,
+	"credits": ###REPLACE###,
+	"course": ###REPLACE###,
+	"subject_type": ###REPLACE###
+}
+
+### Test 05: Modify an existing subjects 
+### Positive test 
+@subId = {{subjects.response.body.0.subject_id}} 
+PUT {{BASE}}/subjects/{{subId}} 
+Content-Type: application/json 
+Token: {{token}} 
+
+{ 
+	"degree_id": ###REPLACE###,
+	"subject_name": ###REPLACE###,
+	"acronym": ###REPLACE###,
+	"credits": ###REPLACE###,
+	"course": ###REPLACE###,
+	"subject_type": ###REPLACE###
+}
+
+### Check the modified subjects
+
+GET {{BASE}}/subjects/{{newsubjectsid}}
+Content-Type: application/json 
+
+### Test 06: Try to modify an existing subjects without a session token
+### Negative test
+@subId = {{subjects.response.body.0.subject_id}}
+PUT {{BASE}}/subjects/{{subId}}
+Content-Type: application/json
+
+{
+	"degree_id": ###REPLACE###,
+	"subject_name": ###REPLACE###,
+	"acronym": ###REPLACE###,
+	"credits": ###REPLACE###,
+	"course": ###REPLACE###,
+	"subject_type": ###REPLACE###
+}
+
+### Test 07: Delete an existing subjects
+### Positive test
+
+### Create a new subjects, which we will delete
+# @name createdsubToDelete
+POST {{BASE}}/subjects
+Content-Type: application/json
+Token: {{token}}
+
+{
+	"degree_id": ###REPLACE###,
+	"subject_name": ###REPLACE###,
+	"acronym": ###REPLACE###,
+	"credits": ###REPLACE###,
+	"course": ###REPLACE###,
+	"subject_type": ###REPLACE###
+}
+
+### Check the created subjects
+@subdelId = {{createdsubToDelete.response.body.lastId}}
+GET {{BASE}}/subjects/{{subdelId}}
+Content-Type: application/json 
+
+### Delete the subjects
+DELETE {{BASE}}/subjects/{{subdelId}}
+Token: {{token}}
+
+### Check the deleted subjects
+GET {{BASE}}/subjects/{{subdelId}}
+Content-Type: application/json 
+
+### Test 08: Try to delete a subjects without a session token
+### Negative test
+DELETE {{BASE}}/subjects/{{subId}}
+
