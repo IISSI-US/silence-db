@@ -31,7 +31,7 @@
         ],
         "auth_required": true,
         "allowed_roles": [
-            "*"
+            "admin"
         ]
     },
     "update": {
@@ -46,7 +46,7 @@
         ],
         "auth_required": true,
         "allowed_roles": [
-            "*"
+            "admin"
         ]
     },
     "delete": {
@@ -56,7 +56,7 @@
         "sql": "DELETE FROM teaching_loads WHERE professor_id = $professor_id",
         "auth_required": true,
         "allowed_roles": [
-            "*"
+            "admin"
         ]
     }
 }

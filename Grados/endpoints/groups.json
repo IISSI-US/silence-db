@@ -32,7 +32,7 @@
         ],
         "auth_required": true,
         "allowed_roles": [
-            "*"
+            "admin"
         ]
     },
     "update": {
@@ -48,7 +48,7 @@
         ],
         "auth_required": true,
         "allowed_roles": [
-            "*"
+            "admin"
         ]
     },
     "delete": {
@@ -58,7 +58,7 @@
         "sql": "DELETE FROM groups WHERE group_id = $group_id",
         "auth_required": true,
         "allowed_roles": [
-            "*"
+            "admin"
         ]
     }
 }

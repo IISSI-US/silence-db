@@ -30,7 +30,7 @@
         ],
         "auth_required": true,
         "allowed_roles": [
-            "*"
+            "admin"
         ]
     },
     "update": {
@@ -44,7 +44,7 @@
         ],
         "auth_required": true,
         "allowed_roles": [
-            "*"
+            "admin"
         ]
     },
     "delete": {
@@ -54,7 +54,7 @@
         "sql": "DELETE FROM group_enrollments WHERE student_id = $student_id",
         "auth_required": true,
         "allowed_roles": [
-            "*"
+            "admin"
         ]
     }
 }
