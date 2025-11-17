@@ -40,23 +40,51 @@ VALUES
     ('paula.bermejo@alum.us.es', 'student')
 ON DUPLICATE KEY UPDATE role = VALUES(role);
 
-CREATE ROLE IF NOT EXISTS 'role_admin';
-CREATE ROLE IF NOT EXISTS 'role_teacher';
-CREATE ROLE IF NOT EXISTS 'role_student';
+-- ROLES
 
-GRANT ALL PRIVILEGES ON GradesDB.* TO 'role_admin';
+-- Admin: todos los privilegios sobre la BD
+CREATE ROLE IF NOT EXISTS role_admin;
 
-GRANT SELECT ON GradesDB.* TO 'role_teacher';
-GRANT INSERT, UPDATE ON GradesDB.grades TO 'role_teacher';
+-- Teacher: lectura de toda la BD y escritura limitada en 'grades'
+CREATE ROLE IF NOT EXISTS role_teacher;
 
-GRANT SELECT ON GradesDB.* TO 'role_student';
+-- Student: lectura de toda la BD
+CREATE ROLE IF NOT EXISTS role_student;
+
+-- 3) PRIVILEGIOS A LOS ROLES (en este orden)
+-- Admin (total sobre la BD)
+GRANT ALL PRIVILEGES ON GradesDB.* TO role_admin;
+
+-- Teacher:
+--   - Lectura de toda la BD (para que pueda navegar y hacer SELECT en todas las tablas)
+--   - Modificaciones SOLO en 'grades'
+GRANT SELECT ON GradesDB.* TO role_teacher;
+GRANT INSERT, UPDATE ON GradesDB.grades TO role_teacher;
+
+-- Student: solo lectura en toda la BD
+GRANT SELECT ON GradesDB.* TO role_student;
+
+-- USUARIOS y asignación de roles
 
 CREATE USER IF NOT EXISTS 'admin_grados'@'%' IDENTIFIED BY 'druiz';
+GRANT role_admin TO 'admin_grados'@'%';
+
 CREATE USER IF NOT EXISTS 'teacher_grados'@'%' IDENTIFIED BY 'inmahernandez';
+GRANT role_teacher TO 'teacher_grados'@'%';
+
 CREATE USER IF NOT EXISTS 'student_grados'@'%' IDENTIFIED BY 'david.romero';
+GRANT role_student TO 'student_grados'@'%';
 
-GRANT 'role_admin' TO 'admin_grados'@'%';
-GRANT 'role_teacher' TO 'teacher_grados'@'%';
-GRANT 'role_student' TO 'student_grados'@'%';
+-- Activar ROL por defecto (clave para que funcione al iniciar sesión)
+-- Al iniciar sesión desde HeidiSQL odesde la línea de comando, debe activarse el rol
+-- por defecto para que el usuario tenga los permisos asignados al rol.
 
-FLUSH PRIVILEGES;
+-- Ejecuta los siguientes escenarios de test
+-- SET ROLE role_admin TO 'admin_grados'@'%';
+-- SOURCE test_admin.sql;
+
+-- SET ROLE role_teacher TO 'teacher_grados'@'%';
+-- SOURCE test_teacher.sql;
+
+-- SET ROLE role_student TO 'student_grados'@'%';  
+-- SOURCE test_student.sql;
