@@ -1,103 +1,188 @@
-DELETE FROM Grades;
-DELETE FROM GroupsStudents;
-DELETE FROM Students;
-DELETE FROM Groups;
-DELETE FROM Subjects;
-DELETE FROM Degrees;
+--
+-- Datos iniciales para la BD de Grados
+-- En esta iteración solo poblamos Degrees y Subjects
+--
+USE GradesDB;
 
-INSERT INTO Degrees (degreeId, name, years) VALUES
-	(1, 'Ingeniería del Software', 4),
-	(2, 'Ingeniería del Computadores', 4),
-	(3, 'Tecnologías Informáticas', 4);
+SET FOREIGN_KEY_CHECKS = 0;
+DELETE FROM grades;
+DELETE FROM teaching_loads;
+DELETE FROM group_enrollments;
+DELETE FROM subject_enrollments;
+DELETE FROM groups;
+DELETE FROM students;
+DELETE FROM professors;
+DELETE FROM people;
+DELETE FROM subjects;
+DELETE FROM degrees;
+SET FOREIGN_KEY_CHECKS = 1;
 
-INSERT INTO Subjects (subjectId, name, acronym, credits, year, type, degreeId) VALUES
-	(1, 'Diseño y Pruebas', 'DP', 12, 3, 'Obligatoria', 1),
-	(2, 'Acceso Inteligente a la Informacion', 'AII', 6, 4, 'Optativa', 1),
-	(3, 'Optimizacion de Sistemas', 'OS', 6, 4, 'Optativa', 1),
-	(4, 'Ingeniería de Requisitos', 'IR', 6, 2, 'Obligatoria', 1),
-	(5, 'Análisis y Diseño de Datos y Algoritmos', 'ADDA', 12, 2, 'Obligatoria', 1),
-	(6, 'Introducción a la Matematica Discreta', 'IMD', 6, 1, 'Formacion Basica', 2),
-	(7, 'Redes de Computadores', 'RC', 6, 2, 'Obligatoria', 2),
-	(8, 'Teoría de Grafos', 'TG', 6, 3, 'Obligatoria', 2),
-	(9, 'Aplicaciones de Soft Computing', 'ASC', 6, 4, 'Optativa', 2),
-	(10, 'Fundamentos de Programación', 'FP', 12, 1, 'Formacion Basica', 3),
-	(11, 'Lógica Informatica', 'LI', 6, 2, 'Optativa', 3),
-	(12, 'Gestión y Estrategia Empresarial', 'GEE', 90, 3, 'Optativa', 3),
-	(13, 'Trabajo de Fin de Grado', 'TFG', 12, 4, 'Obligatoria', 3);
-	
-INSERT INTO Groups (groupId, name, activity, year, subjectId) VALUES
-	(1, 'T1', 'Teoria', 2018, 1),
-	(2, 'T2', 'Teoria', 2018, 1),
-	(3, 'L1', 'Laboratorio', 2018, 1),
-	(4, 'L2', 'Laboratorio', 2018, 1),
-	(5, 'L3', 'Laboratorio', 2018, 1),
-	(6, 'T1', 'Teoria', 2019, 1),
-	(7, 'T2', 'Teoria', 2019, 1),
-	(8, 'L1', 'Laboratorio', 2019, 1),
-	(9, 'L2', 'Laboratorio', 2019, 1),
-	(10, 'Teor1', 'Teoria', 2018, 2),
-	(11, 'Teor2', 'Teoria', 2018, 2),
-	(12, 'Lab1', 'Laboratorio', 2018, 2),
-	(13, 'Lab2', 'Laboratorio', 2018, 2),
-	(14, 'Teor1', 'Teoria', 2019, 2),
-	(15, 'Lab1', 'Laboratorio', 2019, 2),
-	(16, 'Lab2', 'Laboratorio', 2019, 2),
-	(17, 'T1', 'Teoria', 2019, 10),
-	(18, 'T2', 'Teoria', 2019, 10),
-	(19, 'T3', 'Teoria', 2019, 10),
-	(20, 'L1', 'Laboratorio', 2019, 10),
-	(21, 'L2', 'Laboratorio', 2019, 10),
-	(22, 'L3', 'Laboratorio', 2019, 10),
-	(23, 'L4', 'Laboratorio', 2019, 10),
-	(24, 'Clase', 'Teoria', 2019, 12);
-	
--- The passwords are securely hashed, they are the part of the email that goes before the @
--- e.g. the password for daniel@alum.us.es is daniel
-INSERT INTO Students (studentId, accessMethod, dni, firstname, surname, birthdate, email) VALUES
-	(1, 'Selectividad', '12345678A', 'Daniel', 'Pérez', '1991-01-01', 'daniel@alum.us.es'),
-	(2, 'Selectividad', '22345678A', 'Rafael', 'Ramírez', '1992-01-01', 'rafael@alum.us.es'),
-	(3, 'Selectividad', '32345678A', 'Gabriel', 'Hernández', '1993-01-01', 'gabriel@alum.us.es'),
-	(4, 'Selectividad', '42345678A', 'Manuel', 'Fernández', '1994-01-01', 'manuel@alum.us.es'),
-	(5, 'Selectividad', '52345678A', 'Joel', 'Gómez', '1995-01-01', 'joel@alum.us.es'),
-	(6, 'Selectividad', '62345678A', 'Abel', 'López', '1996-01-01', 'abel@alum.us.es'),
-	(7, 'Selectividad', '72345678A', 'Azael', 'González', '1997-01-01', 'azael@alum.us.es'),
-	(8, 'Selectividad', '8345678A', 'Uriel', 'Martínez', '1998-01-01', 'uriel@alum.us.es'),
-	(9, 'Selectividad', '92345678A', 'Gael', 'Sánchez', '1999-01-01', 'gael@alum.us.es'),
-	(10, 'Titulado Extranjero', '12345678B', 'Noel', 'Álvarez', '1991-02-02', 'noel@alum.us.es'),
-	(11, 'Titulado Extranjero', '22345678B', 'Ismael', 'Antúnez', '1992-02-02', 'ismael@alum.us.es'),
-	(12, 'Titulado Extranjero', '32345678B', 'Nathanael', 'Antolinez', '1993-02-02', 'nathanael@alum.us.es'),
-	(13, 'Titulado Extranjero', '42345678B', 'Ezequiel', 'Aznárez', '1994-02-02', 'ezequiel@alum.us.es'),
-	(14, 'Titulado Extranjero', '52345678B', 'Ángel', 'Chávez', '1995-02-02', 'angel@alum.us.es'),
-	(15, 'Titulado Extranjero', '62345678B', 'Matusael', 'Gutiérrez', '1996-02-02', 'matusael@alum.us.es'),
-	(16, 'Titulado Extranjero', '72345678B', 'Samael', 'Gálvez', '1997-02-02', 'samael@alum.us.es'),
-	(17, 'Titulado Extranjero', '82345678B', 'Baraquiel', 'Ibáñez', '1998-02-02', 'baraquiel@alum.us.es'),
-	(18, 'Titulado Extranjero', '92345678B', 'Otoniel', 'Idiáquez', '1999-02-02', 'otoniel@alum.us.es'),
-	(19, 'Titulado Extranjero', '12345678C', 'Niriel', 'Benítez', '1991-03-03', 'niriel@alum.us.es'),
-	(20, 'Titulado Extranjero', '22345678C', 'Múriel', 'Bermúdez', '1992-03-03', 'muriel@alum.us.es'),
-	(21, 'Titulado Extranjero', '32345678C', 'John', 'AII', '2000-01-01', 'john@alum.us.es');
-	
-INSERT INTO GroupsStudents (groupStudentId, groupId, studentId) VALUES
-	(1, 1, 1),
-	(2, 3, 1),
-	(3, 7, 1),
-	(4, 8, 1),
-	(5, 10, 1),
-	(6, 12, 1),
-	(7, 2, 2),
-	(8, 3, 2),
-	(9, 10, 2),
-	(10, 12, 2),
-	(11, 18, 21),
-	(12, 21, 21);
-	
-INSERT INTO Grades (gradeId, value, gradeCall, withHonours, studentId, groupId) VALUES
-	(1, 4.50, 1, 0, 1, 1),
-	(2, 3.25, 2, 0, 1, 1),
-	(3, 9.95, 1, 0, 1, 7),
-	(4, 7.5, 1, 0, 1, 10),
-	(5, 2.50, 1, 0, 2, 2),
-	(6, 5.00, 2, 0, 2, 2),
-	(7, 10.00, 1, 1, 2, 10),
-	(8, 0.00, 1, 0, 21, 18),
-	(9, 1.25, 2, 0, 21, 18),
-	(10, 0.5, 3, 0, 21, 18);
+INSERT INTO degrees (degree_id, degree_name, duration_years) VALUES
+    (1, 'Ingeniería del Software', 4),
+    (2, 'Ingeniería de Computadores', 4),
+    (3, 'Tecnologías Informáticas', 4);
+
+INSERT INTO subjects (
+    subject_id,
+    degree_id,
+    subject_name,
+    acronym,
+    credits,
+    course,
+    subject_type
+) VALUES
+    -- Primer curso (Tecnologías Informáticas)
+    (1, 3, 'Fundamentos de Programación', 'FP', 12, 1, 'Formación Básica'),
+    (2, 3, 'Cálculo Infinitesimal y Numérico', 'CIN', 6, 1, 'Formación Básica'),
+    (3, 3, 'Circuitos Electrónicos Digitales', 'CED', 6, 1, 'Formación Básica'),
+    (4, 3, 'Fundamentos Físicos de la Informática', 'FFI', 6, 1, 'Formación Básica'),
+    (5, 3, 'Introducción a la Matemática Discreta', 'IMD', 6, 1, 'Formación Básica'),
+    (6, 3, 'Administración de Empresas', 'ADE', 6, 1, 'Formación Básica'),
+    (7, 3, 'Álgebra Lineal y Numérica', 'ALN', 6, 1, 'Formación Básica'),
+    (8, 3, 'Estadística', 'EST', 6, 1, 'Formación Básica'),
+    (9, 3, 'Estructura de Computadores', 'EC', 6, 1, 'Formación Básica'),
+    -- Segundo curso (Tecnologías Informáticas)
+    (10, 3, 'Análisis y Diseño de Datos y Algoritmos', 'ADDA', 12, 2, 'Obligatoria'),
+    (11, 3, 'Introducción a la Ingeniería del Software y los Sistemas de Información I', 'IISSI-1', 6, 2, 'Obligatoria'),
+    (12, 3, 'Matemática Discreta', 'MD', 6, 2, 'Obligatoria'),
+    (13, 3, 'Redes de Computadores', 'RC', 6, 2, 'Obligatoria'),
+    (14, 3, 'Arquitectura de Computadores', 'AC', 6, 2, 'Obligatoria'),
+    (15, 3, 'Introducción a la Ingeniería del Software y los Sistemas de Información II', 'IISSI-2', 6, 2, 'Obligatoria'),
+    (16, 3, 'Sistemas Operativos', 'SO', 6, 2, 'Obligatoria'),
+    (17, 3, 'Inteligencia Artificial', 'IA', 6, 2, 'Obligatoria');
+
+-- Personas (25 registros)
+INSERT INTO people (person_id, dni, first_name, last_name, age, email) VALUES
+    (1, '00000001A', 'David', 'Ruiz', 50, 'druiz@us.es'),
+    (2, '00000002B', 'Inma', 'Hernández', 40, 'inmahernandez@us.es'),
+    (3, '00000003C', 'Fernando', 'Sola', 28, 'fsola@us.es'),
+    (4, '00000004D', 'Daniel', 'Ayala', 32, 'dayala1@us.es'),
+    (5, '00000005E', 'Pepe', 'Calderón', 43, 'pepecalderon@us.es'),
+    (6, '10000006F', 'David', 'Romero', 22, 'david.romero@alum.us.es'),
+    (7, '10000007G', 'Lucía', 'Molina', 21, 'lucia.molina@alum.us.es'),
+    (8, '10000008H', 'Hugo', 'Paredes', 20, 'hugo.paredes@alum.us.es'),
+    (9, '10000009J', 'Sara', 'Campos', 21, 'sara.campos@alum.us.es'),
+    (10, '10000010K', 'Mario', 'Galán', 22, 'mario.galan@alum.us.es'),
+    (11, '10000011L', 'Elena', 'Torres', 21, 'elena.torres@alum.us.es'),
+    (12, '10000012M', 'Rubén', 'Durán', 20, 'ruben.duran@alum.us.es'),
+    (13, '10000013N', 'Claudia', 'Soto', 23, 'claudia.soto@alum.us.es'),
+    (14, '10000014P', 'Iván', 'Cuesta', 22, 'ivan.cuesta@alum.us.es'),
+    (15, '10000015Q', 'Noelia', 'Rey', 21, 'noelia.rey@alum.us.es'),
+    (16, '10000016R', 'Pablo', 'Vidal', 22, 'pablo.vidal@alum.us.es'),
+    (17, '10000017S', 'Alicia', 'Muñoz', 21, 'alicia.munoz@alum.us.es'),
+    (18, '10000018T', 'Sergio', 'Izquierdo', 22, 'sergio.izquierdo@alum.us.es'),
+    (19, '10000019U', 'Nerea', 'Saiz', 20, 'nerea.saiz@alum.us.es'),
+    (20, '10000020V', 'Álvaro', 'León', 23, 'alvaro.leon@alum.us.es'),
+    (21, '10000021W', 'Julia', 'Benito', 21, 'julia.benito@alum.us.es'),
+    (22, '10000022X', 'Tomás', 'Rubio', 22, 'tomas.rubio@alum.us.es'),
+    (23, '10000023Y', 'Irene', 'Salas', 21, 'irene.salas@alum.us.es'),
+    (24, '10000024Z', 'Álex', 'Delgado', 22, 'alex.delgado@alum.us.es'),
+    (25, '10000025A', 'Paula', 'Bermejo', 21, 'paula.bermejo@alum.us.es');
+
+-- Profesores (5)
+INSERT INTO professors (professor_id, category) VALUES
+    (1, 'Catedrático'),
+    (2, 'Titular'),
+    (3, 'AyudanteDoctor'),
+    (4, 'Titular'),
+    (5, 'Ayudante');
+
+-- Alumnos (20)
+INSERT INTO students (student_id, access_method) VALUES
+    (6, 'Selectividad'),
+    (7, 'Selectividad'),
+    (8, 'Selectividad'),
+    (9, 'Selectividad'),
+    (10, 'Selectividad'),
+    (11, 'Selectividad'),
+    (12, 'Selectividad'),
+    (13, 'Selectividad'),
+    (14, 'Selectividad'),
+    (15, 'Selectividad'),
+    (16, 'Selectividad'),
+    (17, 'Selectividad'),
+    (18, 'Selectividad'),
+    (19, 'Selectividad'),
+    (20, 'Selectividad'),
+    (21, 'Selectividad'),
+    (22, 'Selectividad'),
+    (23, 'Selectividad'),
+    (24, 'Selectividad'),
+    (25, 'Selectividad');
+
+-- Grupos para IISSI-1 (subject_id = 11)
+INSERT INTO groups (group_id, subject_id, group_name, activity, academic_year) VALUES
+    (1, 11, 'T1', 'Teoría', 2024),
+    (2, 11, 'L1', 'Laboratorio', 2024),
+    (3, 11, 'L2', 'Laboratorio', 2024);
+
+-- Matrículas en la asignatura IISSI-1
+INSERT INTO subject_enrollments (student_id, subject_id) VALUES
+    (6, 11), (7, 11), (8, 11), (9, 11), (10, 11),
+    (11, 11), (12, 11), (13, 11), (14, 11), (15, 11),
+    (16, 11), (17, 11), (18, 11), (19, 11), (20, 11),
+    (21, 11), (22, 11), (23, 11), (24, 11), (25, 11);
+
+-- Inscripción en grupos: todos en teoría T1 y repartidos entre L1 y L2
+INSERT INTO group_enrollments (student_id, group_id) VALUES
+    -- T1
+    (6, 1), (7, 1), (8, 1), (9, 1), (10, 1),
+    (11, 1), (12, 1), (13, 1), (14, 1), (15, 1),
+    (16, 1), (17, 1), (18, 1), (19, 1), (20, 1),
+    (21, 1), (22, 1), (23, 1), (24, 1), (25, 1),
+    -- Laboratorio L1
+    (6, 2), (7, 2), (8, 2), (9, 2), (10, 2),
+    (11, 2), (12, 2), (13, 2), (14, 2), (15, 2),
+    -- Laboratorio L2
+    (16, 3), (17, 3), (18, 3), (19, 3), (20, 3),
+    (21, 3), (22, 3), (23, 3), (24, 3), (25, 3);
+
+-- Cargas docentes (máximo 2 profesores por grupo)
+INSERT INTO teaching_loads (professor_id, group_id, credits) VALUES
+    (1, 1, 3.0),
+    (2, 1, 3.0),
+    (3, 2, 3.0),
+    (5, 3, 1.5),
+    (4, 3, 1.5);
+
+-- Notas finales (grupo T1). Las calificaciones representan la media ponderada de teoría y laboratorio.
+INSERT INTO grades (grade_id, student_id, group_id, grade_value, exam_call, with_honors) VALUES
+    -- Primera convocatoria: 10 aprobados (2 con MH), 10 suspensos
+    (1, 6, 1, 9.8, 'Primera', 1),
+    (2, 7, 1, 9.2, 'Primera', 1),
+    (3, 8, 1, 5.4, 'Primera', 0),
+    (4, 9, 1, 8.0, 'Primera', 0),
+    (5, 10, 1, 6.0, 'Primera', 0),
+    (6, 11, 1, 5.7, 'Primera', 0),
+    (7, 12, 1, 7.0, 'Primera', 0),
+    (8, 13, 1, 6.3, 'Primera', 0),
+    (9, 14, 1, 5.8, 'Primera', 0),
+    (10, 15, 1, 6.1, 'Primera', 0),
+    (11, 16, 1, 4.2, 'Primera', 0),
+    (12, 17, 1, 3.9, 'Primera', 0),
+    (13, 18, 1, 4.5, 'Primera', 0),
+    (14, 19, 1, 4.8, 'Primera', 0),
+    (15, 20, 1, 4.4, 'Primera', 0),
+    (16, 21, 1, 3.5, 'Primera', 0),
+    (17, 22, 1, 3.8, 'Primera', 0),
+    (18, 23, 1, 4.0, 'Primera', 0),
+    (19, 24, 1, 4.3, 'Primera', 0),
+    (20, 25, 1, 4.7, 'Primera', 0),
+    -- Segunda convocatoria: alumnos 16-20 aprueban
+    (21, 16, 1, 6.2, 'Segunda', 0),
+    (22, 17, 1, 5.8, 'Segunda', 0),
+    (23, 18, 1, 6.4, 'Segunda', 0),
+    (24, 19, 1, 5.9, 'Segunda', 0),
+    (25, 20, 1, 6.1, 'Segunda', 0),
+    -- Segunda convocatoria suspensos (alumnos 21-25)
+    (26, 21, 1, 4.6, 'Segunda', 0),
+    (27, 22, 1, 4.9, 'Segunda', 0),
+    (28, 23, 1, 4.7, 'Segunda', 0),
+    (29, 24, 1, 4.4, 'Segunda', 0),
+    (30, 25, 1, 4.3, 'Segunda', 0),
+    -- Tercera convocatoria: alumnos 21-25 aprueban
+    (31, 21, 1, 5.6, 'Tercera', 0),
+    (32, 22, 1, 5.9, 'Tercera', 0),
+    (33, 23, 1, 5.5, 'Tercera', 0),
+    (34, 24, 1, 6.0, 'Tercera', 0),
+    (35, 25, 1, 5.7, 'Tercera', 0);
