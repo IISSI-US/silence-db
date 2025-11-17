@@ -1,0 +1,46 @@
+Personas (personaId, dni, nombre, apellidos, edad, email)
+    PK(personaId)
+    AK(dni)
+    AK(email)
+
+Profesores (profesorId, categoría)
+    PK(profesorId)
+    FK(profesorId)/Personas
+
+Alumnos (alumnoId, métodoAcceso)
+    PK(alumnoId)
+    FK(alumnoId)/Personas
+
+Grados(gradoId, nombre, años)
+    PK(gradoId)
+    AK(nombre)
+
+Asignaturas(asignaturaId, gradoId, nombre, acrónimo, créditos, curso, tipo)
+    PK(asignaturaId)
+    FK(gradoId)/Grados
+    AK(nombre)
+    AK(acrónimo)
+
+Grupos(grupoId, asignaturaId, nombre, actividad, añoAcadémico)
+    PK(grupoId)
+    FK(asignaturaId)/Asignaturas
+
+Matriculas(alumnoId, asignaturaId)
+    PK(alumnoId, asignaturaId)
+    FK(alumnoId)/Alumnos
+    FK(asignaturaId)/Asignaturas
+
+GruposAlumnos(alumnoId, grupoId)
+    PK(alumnoId, grupoId)
+    FK(alumnoId)/Alumnos
+    FK(grupoId)/Grupos
+
+Cargas(profesorId, asignaturaId, créditos)
+    PK(profesorId, asignaturaId)
+    FK(profesorId)/Profesores
+    FK(asignaturaId)/Asignaturas
+
+Notas(notaId, alumnoId, grupoId, valor, convocatoria, esMH)
+    PK(notaId)
+    FK(alumnoId)/Alumnos
+    FK(grupoId)/Grupos
