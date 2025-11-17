@@ -82,6 +82,8 @@ BEGIN
         (24, '10000024Z', 'Álex', 'Delgado', 22, 'alex.delgado@alum.us.es'),
         (25, '10000025A', 'Paula', 'Bermejo', 21, 'paula.bermejo@alum.us.es');
 
+    -- Las credenciales se gestionan desde grants.sql
+
     INSERT INTO professors (professor_id, category) VALUES
         (1, 'Catedrático'),
         (2, 'Titular'),
