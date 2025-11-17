@@ -154,8 +154,8 @@ CREATE TABLE grades (
 -- RESTRICCIONES (CHECK) SEGÚN EL MODELO
 -- ============================================================================
 ALTER TABLE people
-    ADD CONSTRAINT rn11_people_age CHECK (age BETWEEN 16 AND 70),
-    ADD CONSTRAINT rn13_people_dni CHECK (dni REGEXP '^[0-9]{8}[A-Za-z]$');
+    ADD CONSTRAINT rn12_people_age CHECK (age BETWEEN 16 AND 70),
+    ADD CONSTRAINT rn14_people_dni CHECK (dni REGEXP '^[0-9]{8}[A-Za-z]$');
 
 ALTER TABLE professors
     ADD CONSTRAINT rn20_professors_category CHECK (
@@ -168,18 +168,18 @@ ALTER TABLE students
     );
 
 ALTER TABLE degrees
-    ADD CONSTRAINT rn12_degree_duration CHECK (duration_years BETWEEN 3 AND 6);
+    ADD CONSTRAINT rn13_degree_duration CHECK (duration_years BETWEEN 3 AND 6);
 
 ALTER TABLE subjects
-    ADD CONSTRAINT rn09_subjects_credits CHECK (credits IN (6, 12)),
-    ADD CONSTRAINT rn15_subjects_course CHECK (course BETWEEN 1 AND 6),
-    ADD CONSTRAINT rn17_subjects_type CHECK (
+    ADD CONSTRAINT rn10_subjects_credits CHECK (credits IN (6, 12)),
+    ADD CONSTRAINT rn16_subjects_course CHECK (course BETWEEN 1 AND 6),
+    ADD CONSTRAINT ck_subjects_type CHECK (
         subject_type IN ('Formación Básica','Obligatoria','Optativa')
     );
 
 ALTER TABLE groups
-    ADD CONSTRAINT rn14_groups_year CHECK (academic_year BETWEEN 2000 AND 2100),
-    ADD CONSTRAINT rn16_groups_activity CHECK (
+    ADD CONSTRAINT rn15_groups_year CHECK (academic_year BETWEEN 2000 AND 2100),
+    ADD CONSTRAINT ck_groups_activity CHECK (
         activity IN ('Teoría','Laboratorio')
     );
 
@@ -187,8 +187,8 @@ ALTER TABLE teaching_loads
     ADD CONSTRAINT rn21_teaching_loads_credits CHECK (credits > 0);
 
 ALTER TABLE grades
-    ADD CONSTRAINT rn10_grades_value CHECK (grade_value BETWEEN 0 AND 10),
-    ADD CONSTRAINT rn06_grades_with_honors CHECK (
+    ADD CONSTRAINT rn11_grades_value CHECK (grade_value BETWEEN 0 AND 10),
+    ADD CONSTRAINT rn08_grades_with_honors CHECK (
         with_honors = 0 OR grade_value >= 9
     ),
     ADD CONSTRAINT rn18_grades_exam_call CHECK (
@@ -201,7 +201,7 @@ ALTER TABLE grades
 
 DELIMITER //
 
-CREATE OR REPLACE TRIGGER t_biu_students_rn08
+CREATE OR REPLACE TRIGGER t_biu_students_rn10
 BEFORE INSERT OR UPDATE ON students
 FOR EACH ROW
 BEGIN
@@ -210,7 +210,7 @@ BEGIN
         SELECT age INTO v_age FROM people WHERE person_id = NEW.student_id;
         IF v_age < 16 THEN
             SIGNAL SQLSTATE '45000'
-                SET MESSAGE_TEXT = 'RN08: No se puede acceder por Selectividad con menos de 16 años';
+                SET MESSAGE_TEXT = 'RN10: No se puede acceder por Selectividad con menos de 16 años';
         END IF;
     END IF;
 END//
@@ -328,7 +328,7 @@ BEGIN
     IF p_activity = 'Teoría' THEN
         SET v_result = (v_count >= 1);
     ELSEIF p_activity = 'Laboratorio' THEN
-        SET v_result = (v_count >= 2);
+        SET v_result = (v_count >= 1);
     END IF;
     RETURN v_result;
 END//
@@ -391,7 +391,7 @@ BEGIN
 
     IF NOT f_is_student_enrolled(NEW.student_id, v_subject_id) THEN
         SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'RN06: El alumno debe estar matriculado en la asignatura';
+            SET MESSAGE_TEXT = 'RN07: El alumno debe estar matriculado en la asignatura';
     END IF;
 
     IF f_student_group_limit(NEW.student_id, v_subject_id, v_activity, NULL) THEN
@@ -417,7 +417,7 @@ BEGIN
 
     IF NOT f_is_student_enrolled(NEW.student_id, v_subject_id) THEN
         SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'RN06: El alumno debe estar matriculado en la asignatura';
+            SET MESSAGE_TEXT = 'RN07: El alumno debe estar matriculado en la asignatura';
     END IF;
 
     IF f_student_group_limit(NEW.student_id, v_subject_id, v_activity, OLD.group_id) THEN
@@ -431,32 +431,32 @@ BEGIN
     END IF;
 END//
 
-CREATE OR REPLACE TRIGGER t_bi_groups_rn16
+CREATE OR REPLACE TRIGGER t_bi_groups_rn06
 BEFORE INSERT ON groups
 FOR EACH ROW
 BEGIN
     IF f_count_subject_groups(NEW.subject_id, NEW.activity, NULL) THEN
         IF NEW.activity = 'Teoría' THEN
             SIGNAL SQLSTATE '45000'
-                SET MESSAGE_TEXT = 'RN16: Solo puede existir un grupo de teoría por asignatura';
+                SET MESSAGE_TEXT = 'RN06: Solo puede existir un grupo de teoría por asignatura';
         ELSE
             SIGNAL SQLSTATE '45000'
-                SET MESSAGE_TEXT = 'RN16: Solo pueden existir dos grupos de laboratorio por asignatura';
+                SET MESSAGE_TEXT = 'RN06: Solo pueden existir dos grupos de laboratorio por asignatura';
         END IF;
     END IF;
 END//
 
-CREATE OR REPLACE TRIGGER t_bu_groups_rn16
+CREATE OR REPLACE TRIGGER t_bu_groups_rn06
 BEFORE UPDATE ON groups
 FOR EACH ROW
 BEGIN
     IF f_count_subject_groups(NEW.subject_id, NEW.activity, OLD.group_id) THEN
         IF NEW.activity = 'Teoría' THEN
             SIGNAL SQLSTATE '45000'
-                SET MESSAGE_TEXT = 'RN16: Solo puede existir un grupo de teoría por asignatura';
+                SET MESSAGE_TEXT = 'RN06: Solo puede existir un grupo de teoría por asignatura';
         ELSE
             SIGNAL SQLSTATE '45000'
-                SET MESSAGE_TEXT = 'RN16: Solo pueden existir dos grupos de laboratorio por asignatura';
+                SET MESSAGE_TEXT = 'RN06: Solo pueden existir dos grupos de laboratorio por asignatura';
         END IF;
     END IF;
 END//
