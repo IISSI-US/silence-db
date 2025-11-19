@@ -5,6 +5,8 @@
 -- 
 
 -- Procedimiento para hacer la carga inicial de la BD.
+USE AficionesDinamicoDB;
+
 DELIMITER //
 CREATE OR REPLACE PROCEDURE populateDB()
 BEGIN

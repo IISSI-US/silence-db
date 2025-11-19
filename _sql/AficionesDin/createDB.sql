@@ -1,7 +1,7 @@
 -- 
 -- Autor: David Ruiz
 -- Fecha: Noviembre de 2025
--- Descripción: Script para crear la BD del ejercicio de Aficiones
+-- Descripción: Script para crear la BD del ejercicio de Aficiones 
 -- 
 
 drop DATABASE IF EXISTS AficionesDinamicoDB;
