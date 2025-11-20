@@ -16,9 +16,9 @@ Este proyecto contiene múltiples esquemas de bases de datos para el curso de In
 
 ## 🗄️ Bases de Datos Disponibles
 
-### **UsuariosDB** (Puerto: 8080)
+### **UsersDB** (Puerto: 8080)
 **Esquema:** Sistema básico de gestión de usuarios
-- `Usuarios`: Información básica de usuarios (nombre, género, edad, email)
+- `users`: Información básica de usuarios (nombre, género, edad, email)
 - **Restricciones**: Edad mínima 18 años, email único
 - **Funciones**: Validación de edad, extracción de dominio de email
 
