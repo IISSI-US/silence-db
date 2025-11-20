@@ -14,7 +14,7 @@ ORDER BY full_name ASC;
 -- RF02: Nombre y correo de las usuarias
 SELECT full_name, email
 FROM users
-WHERE gender = 'female';
+WHERE gender = 'FEMENINO';
 
 -- RF03: Usuarios con dominio corporativo us.es
 SELECT full_name, age, email

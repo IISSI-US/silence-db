@@ -29,47 +29,41 @@ BEGIN
     INSERT INTO test_results(test_id, test_name, test_message, test_status)
     VALUES (p_test_id, SUBSTRING_INDEX(p_message, ':', 1), p_message, p_status);
 END //
-DELIMITER ;
 
 -- =============================================================
 -- TESTS (RN01 - RN02)
 -- =============================================================
 
-DELIMITER //
 CREATE OR REPLACE PROCEDURE p_test_rn01_minimum_age()
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN01', 'RN01: Los usuarios deben ser mayores de edad', 'PASS');
 
-    CALL p_populate_users();
+    CALL p_populate();
 
     INSERT INTO users (full_name, gender, age, email)
-        VALUES ('Minor User', 'male', 17, 'minor@example.com');
+        VALUES ('Usuario Menor', 'MASCULINO', 17, 'menor@example.com');
 
     CALL p_log_test('RN01', 'ERROR: Se permitió registrar un usuario menor de edad', 'FAIL');
 END //
-DELIMITER ;
 
-DELIMITER //
 CREATE OR REPLACE PROCEDURE p_test_rn02_unique_email()
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN02', 'RN02: No se permiten emails duplicados', 'PASS');
 
-    CALL p_populate_users();
+    CALL p_populate();
 
     INSERT INTO users (full_name, gender, age, email)
-        VALUES ('Email Clone', 'female', 30, 'druiz@us.es');
+        VALUES ('Correo Duplicado', 'FEMENINO', 30, 'druiz@us.es');
 
     CALL p_log_test('RN02', 'ERROR: Se permitió duplicar un email', 'FAIL');
 END //
-DELIMITER ;
 
 -- =============================================================
 -- ORQUESTADOR
 -- =============================================================
-DELIMITER //
-CREATE OR REPLACE PROCEDURE p_run_users_tests()
+CREATE OR REPLACE PROCEDURE p_run_tests()
 BEGIN
     DELETE FROM test_results;
 
@@ -80,3 +74,5 @@ BEGIN
     SELECT test_status, COUNT(*) AS total FROM test_results GROUP BY test_status;
 END //
 DELIMITER ;
+
+CALL p_run_tests();

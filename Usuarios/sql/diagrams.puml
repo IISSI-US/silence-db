@@ -1,18 +1,18 @@
-@startuml users-er
+@startuml usuarios-er
 
     hide circle
     hide empty members
 
-    Enum gender << Enumerado >> {
-        male
-        female
-        other
+    Enum Genero << Enumerado >> {
+        MASCULINO
+        FEMENINO
+        OTRO
     }
 
-    Class user << Entidad >> {
-        full_name: String
-        gender: gender
-        age: Integer
+    Class Usuario << Entidad >> {
+        nombre_completo: String
+        genero: Genero
+        edad: Integer
         email: String
     }
 

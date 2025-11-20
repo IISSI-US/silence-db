@@ -6,7 +6,7 @@
 USE UsersDB;
 
 DELIMITER //
-CREATE OR REPLACE PROCEDURE p_populate_users()
+CREATE OR REPLACE PROCEDURE p_populate()
 BEGIN
     DELETE FROM users;
     ALTER TABLE users AUTO_INCREMENT = 1;
@@ -26,4 +26,4 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL p_populate_users();
+CALL p_populate();
