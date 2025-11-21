@@ -6,19 +6,19 @@
 
 DELIMITER //
 CREATE OR REPLACE PROCEDURE 
-	pRaiseFee(id INT, amount DOUBLE) 
+	p_raise_fee(id INT, amount DOUBLE) 
 BEGIN 
-	DECLARE e ROW TYPE OF Employees; 
-	DECLARE newFee DOUBLE;
+	DECLARE e ROW TYPE OF employees; 
+	DECLARE new_fee DOUBLE;
 	SELECT * INTO e -- el resultado del select lo almacena en la variable
-		FROM Employees
-		WHERE employeeId = id; 
-	SET newFee = e.fee + amount;
-	UPDATE Employees 
-		SET fee = newFee 
-		WHERE employeeId = id; 
+		FROM employees
+		WHERE employee_id = id; 
+	SET new_fee = e.fee + amount;
+	UPDATE employees 
+		SET fee = new_fee 
+		WHERE employee_id = id; 
 END //
 DELIMITER ;
 
--- CALL pPopulateDB();
--- CALL pRaiseFee(4,0.3);
+-- CALL p_populate_db();
+-- CALL p_raise_fee(4,0.3);

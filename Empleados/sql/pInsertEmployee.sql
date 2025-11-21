@@ -5,23 +5,23 @@
 --
 
 DELIMITER //
-CREATE OR REPLACE PROCEDURE pInsertEmployee (
-	p_employeeId INT,
-	p_departmentId INT,
-	p_bossId INT,
-	p_nameEmp VARCHAR(64),
-	p_startDate DATE,
-	p_endDate DATE,
+CREATE OR REPLACE PROCEDURE p_insert_employee (
+	p_employee_id INT,
+	p_department_id INT,
+	p_boss_id INT,
+	p_name_emp VARCHAR(64),
+	p_start_date DATE,
+	p_end_date DATE,
 	p_salary DOUBLE, 
 	p_fee DOUBLE)
 BEGIN 
-	IF (p_startDate IS NULL) THEN 
-		SET p_startDate = SYSDATE(); 
+	IF (p_start_date IS NULL) THEN 
+		SET p_start_date = SYSDATE(); 
 	END IF;
-	INSERT INTO Employees (employeeId, departmentId, bossId, nameEmp, salary, startDate, endDate, fee)	
-	VALUES (p_employeeId, p_departmentId, p_bossId, p_nameEmp, p_salary, p_startDate, p_endDate, p_fee); 
+	INSERT INTO employees (employee_id, department_id, boss_id, name_emp, salary, start_date, end_date, fee)	
+	VALUES (p_employee_id, p_department_id, p_boss_id, p_name_emp, p_salary, p_start_date, p_end_date, p_fee); 
 END //
 DELIMITER ;
 
-CALL pPopulateDB();
-CALL pInsertEmployee(6, 1, NULL, 'Daniel', '2020-09-15', NULL, 2500.0, 0.2); 
+CALL p_populate_db();
+CALL p_insert_employee(6, 1, NULL, 'Daniel', '2020-09-15', NULL, 2500.0, 0.2); 

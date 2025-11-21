@@ -5,14 +5,14 @@
 -- no tiene más de 5 Empleados.
 
 DELIMITER //
-CREATE OR REPLACE TRIGGER tMaxEmployeesDepartment 
-BEFORE INSERT ON Employees FOR EACH ROW 
+CREATE OR REPLACE TRIGGER t_max_employees_department 
+BEFORE INSERT ON employees FOR EACH ROW 
 BEGIN 
 	DECLARE n INT; 
 	SET n = (
 		SELECT COUNT(*)
-		FROM Employees
-		WHERE departmentId = new.departmentId
+		FROM employees
+		WHERE department_id = new.department_id
 	); 
 	IF (n > 4) THEN 
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 
@@ -21,6 +21,6 @@ BEGIN
 	END //
 DELIMITER ;
 
--- CALL pPopulateDB();
--- CALL pInsertEmployee(6, 1, NULL, 'quinto empleado departamento 1', null, NULL, 1500, 0);
--- CALL pInsertEmployee(7, 1, NULL, 'sexto empleado departamento 1', null, NULL, 1500, 0);
+-- CALL p_populate_db();
+-- CALL p_insert_employee(6, 1, NULL, 'quinto empleado departamento 1', null, NULL, 1500, 0);
+-- CALL p_insert_employee(7, 1, NULL, 'sexto empleado departamento 1', null, NULL, 1500, 0);

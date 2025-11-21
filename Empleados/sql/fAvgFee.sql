@@ -6,11 +6,11 @@
 
 DELIMITER //
 CREATE OR REPLACE FUNCTION 
-	fAvgFee() RETURNS DOUBLE 
+	f_avg_fee() RETURNS DOUBLE 
 BEGIN 
 	RETURN (
 		SELECT AVG(fee)
-		FROM Employees
+		FROM employees
 	); 
 END //
 DELIMITER ;
@@ -18,13 +18,13 @@ DELIMITER ;
 -- El procedimiento puede usar la función 
 DELIMITER //
 CREATE OR REPLACE PROCEDURE 
-	pEquateFees() 
+	p_equate_fees() 
 BEGIN 
 	DECLARE af DOUBLE; 
-	SET af = fAvgFee();
-	UPDATE Employees SET fee = af; 
+	SET af = f_avg_fee();
+	UPDATE employees SET fee = af; 
 END//
 DELIMITER ;
 
--- CALL pPopulateDB();
--- CALL pEquateFees();
+-- CALL p_populate_db();
+-- CALL p_equate_fees();

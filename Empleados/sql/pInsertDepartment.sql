@@ -6,15 +6,15 @@
 
 DELIMITER //
 CREATE OR REPLACE PROCEDURE 
-	pInsertDepartment(
-		p_nameDep VARCHAR(32), 
+	p_insert_department(
+		p_name_dep VARCHAR(32), 
 		p_city VARCHAR(64)) 
 BEGIN
-	INSERT INTO Departments (nameDep, city) VALUES (p_nameDep, p_city); 
+	INSERT INTO departments (name_dep, city) VALUES (p_name_dep, p_city); 
 END//
 DELIMITER ;
 
-CALL pPopulateDB();
-CALL pInsertDepartment('Economía', 'Almeria'); 
+CALL p_populate_db();
+CALL p_insert_department('Economía', 'Almeria'); 
 -- Insertar departamento duplicado:
--- CALL pInsertDepartment ('Economía', 'Almeria'); 
+-- CALL p_insert_department ('Economía', 'Almeria'); 

@@ -8,8 +8,8 @@
 
 -- OPCIÓN 1: No se permite realizar el cambio en la comisión
 DELIMITER //
-CREATE OR REPLACE TRIGGER tChangeFee1 
-BEFORE UPDATE ON Employees FOR EACH ROW 
+CREATE OR REPLACE TRIGGER t_change_fee_1 
+BEFORE UPDATE ON employees FOR EACH ROW 
 BEGIN 
 	IF((new.fee - old.fee) > 0.2 OR ((new.fee - old.fee) < -0.2)) THEN 
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 
@@ -20,8 +20,8 @@ DELIMITER ;
 
 -- OPCIÓN 2: Se permite realizar el cambio al valor máximo permitido
 DELIMITER //
-CREATE OR REPLACE TRIGGER tChangeFee2
-BEFORE UPDATE ON Employees FOR EACH ROW 
+CREATE OR REPLACE TRIGGER t_change_fee_2
+BEFORE UPDATE ON employees FOR EACH ROW 
 BEGIN 
 	IF((new.fee - old.fee) > 0.2) THEN 
 		SET new.fee = old.fee + 0.2; 

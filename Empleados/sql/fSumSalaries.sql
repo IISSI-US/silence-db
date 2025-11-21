@@ -6,25 +6,25 @@
 
 DELIMITER //
 CREATE OR REPLACE FUNCTION 
-	fSumSalaries() RETURNS DECIMAL 
+	f_sum_salaries() RETURNS DECIMAL 
 BEGIN 
 	DECLARE total DECIMAL; 
-	DECLARE employee ROW TYPE OF Employees; 
+	DECLARE employee ROW TYPE OF employees; 
 	DECLARE done BOOLEAN DEFAULT FALSE; 
-	DECLARE curEmployees CURSOR FOR
+	DECLARE cur_employees CURSOR FOR
 		SELECT *
-		FROM Employees; 
+		FROM employees; 
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done := TRUE; 
 	SET total = 0; 
-	OPEN curEmployees;
+	OPEN cur_employees;
 	readLoop: LOOP 
-		FETCH curEmployees INTO employee; 
+		FETCH cur_employees INTO employee; 
 		IF done THEN 
 			LEAVE readLoop; 
 		END IF; 
 		SET total = total + employee.salary; 
 	END LOOP; 
-	CLOSE curEmployees; 
+	CLOSE cur_employees; 
 	RETURN total; 
 END //
 DELIMITER ; 

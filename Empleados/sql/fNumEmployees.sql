@@ -6,17 +6,17 @@
 
 DELIMITER //
 CREATE OR REPLACE FUNCTION 
-	fNumEmployees(c VARCHAR(64)) RETURNS INT 
+	f_num_employees(c VARCHAR(64)) RETURNS INT 
 BEGIN 
 	RETURN (
 		SELECT COUNT(*)
-		FROM Employees E JOIN Departments D
-		ON (E.departmentId = D.departmentId)
-		WHERE D.city = c
+		FROM employees e JOIN departments d
+		ON (e.department_id = d.department_id)
+		WHERE d.city = c
 	); 
 END//
 DELIMITER ;
 
-SELECT *, fNumEmployees(d.city) numEmployees
-FROM Departments d
+SELECT *, f_num_employees(d.city) num_employees
+FROM departments d
 ;

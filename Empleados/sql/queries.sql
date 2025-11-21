@@ -3,175 +3,175 @@ Shift+Control+F9  con el cursor en la línea que contiene la consulta */
 
 /* Employees con un sueldo inferior a 2000 euros */
 SELECT *
-FROM Employees
+FROM employees
 WHERE salary < 2000;
 
 /* Employees con un sueldo inferior a 2000 euros */
-SELECT nameEmp, salary
-FROM Employees
+SELECT name_emp, salary
+FROM employees
 WHERE salary < 2000;
 
 /* Fechas de alta y baja de los empeados como una lista */
-SELECT ALL startDate, endDate
-FROM Employees;
+SELECT ALL start_date, end_date
+FROM employees;
 
 /* Fechas de alta y baja de los empeados como un conjunto */
-SELECT DISTINCT startDate, endDate
-FROM Employees;
+SELECT DISTINCT start_date, end_date
+FROM employees;
 
-/* Conjunto de Employees con un salary en [2000,3000] */
+/* Conjunto de employees con un salary en [2000,3000] */
 /* Opción 1 */
-SELECT DISTINCT nameEmp, salary 
-FROM Employees
+SELECT DISTINCT name_emp, salary 
+FROM employees
 WHERE salary >=2000 AND salary <=3000;
 /* Opción 2 */
-SELECT DISTINCT nameEmp, salary
-FROM Employees
+SELECT DISTINCT name_emp, salary
+FROM employees
 WHERE salary BETWEEN 2000 AND 3000;
 
-/* Conjunto de Employees con salary de 1000, 2500 o 3000 euros */
-SELECT DISTINCT nameEmp, salary
-FROM Employees
+/* Conjunto de employees con salary de 1000, 2500 o 3000 euros */
+SELECT DISTINCT name_emp, salary
+FROM employees
 WHERE salary IN (1000,2500,3000);
 
-/* Lista de Employees con una 'o' en la segunda posición de su nameEmp
+/* Lista de employees con una 'o' en la segunda posición de su name_emp
 o que son jefes */
 SELECT *
-FROM Employees
-WHERE nameEmp LIKE '_o%' OR bossId IS NULL;
+FROM employees
+WHERE name_emp LIKE '_o%' OR boss_id IS NULL;
 
-/* Lista de Employees ordenada por departmentId y luego por nameEmp */
+/* Lista de employees ordenada por department_id y luego por name_emp */
 SELECT *
-FROM Employees
-ORDER BY departmentId, nameEmp ASC;
+FROM employees
+ORDER BY department_id, name_emp ASC;
 
-/* Producto cartesiano de Employees y Departments */
+/* Producto cartesiano de employees y departments */
 SELECT *
-FROM Employees, Departments;
+FROM employees, departments;
 
-/* Employees y Departments en los que trabajan. Natural join */
+/* employees y departments en los que trabajan. Natural join */
 /* Opción 1: */
-SELECT nameEmp, salary, startDate, nameDep
-FROM Employees E, Departments D
-WHERE E.departmentId=D.departmentId;
+SELECT name_emp, salary, start_date, name_dep
+FROM employees e, departments d
+WHERE e.department_id=d.department_id;
 /* Opción 2: */
-SELECT nameEmp, salary, startDate, nameDep
-FROM Employees NATURAL JOIN Departments;
+SELECT name_emp, salary, start_date, name_dep
+FROM employees NATURAL JOIN departments;
 
 /* Join parciales */
 /* Para hacer una prueba borramos el departamento de Ana */ 
-UPDATE Employees SET departmentId=NULL WHERE employeeId=5;
+UPDATE employees SET department_id=NULL WHERE employee_id=5;
 
 /* En el left join se devuelve a Ana, aunque no tenga departamento */
-SELECT nameEmp, salary, startDate, nameDep
-FROM Employees E
-  LEFT JOIN Departments D
-  ON E.departmentId=D.departmentId;
+SELECT name_emp, salary, start_date, name_dep
+FROM employees e
+  LEFT JOIN departments d
+  ON e.department_id=d.department_id;
   
-/* En el right join se devuelve el Departamento de Arte, aunque no tenga Employees */
-SELECT nameEmp, salary, startDate, nameDep
-FROM Employees E
-  RIGHT JOIN Departments D
-  ON E.departmentId=D.departmentId;
+/* En el right join se devuelve el Departamento de Arte, aunque no tenga employees */
+SELECT name_emp, salary, start_date, name_dep
+FROM employees e
+  RIGHT JOIN departments d
+  ON e.department_id=d.department_id;
   
 /* Ejemplo de unión de left y right join, devuelve el full join */
 SELECT *
-FROM Employees E
-	LEFT JOIN Departments D
-	ON E.departmentId=D.departmentId
+FROM employees e
+	LEFT JOIN departments d
+	ON e.department_id=d.department_id
 UNION
 SELECT *
-FROM Employees E
-	RIGHT JOIN Departments D
-	ON E.departmentId=D.departmentId;
+FROM employees e
+	RIGHT JOIN departments d
+	ON e.department_id=d.department_id;
 	
-/* Departments sin Employees */
+/* departments sin employees */
 SELECT *
-FROM Departments D
+FROM departments d
 WHERE NOT EXISTS (
-	SELECT * FROM Employees E
-	WHERE D.departmentId=E.departmentId
+	SELECT * FROM employees e
+	WHERE d.department_id=e.department_id
 );
 
-/* Departments con Employees */
+/* departments con employees */
 SELECT *
-FROM Departments D
+FROM departments d
 WHERE EXISTS (
-	SELECT * FROM Employees E
-	WHERE D.departmentId=E.departmentId
+	SELECT * FROM employees e
+	WHERE d.department_id=e.department_id
 );
 
-/* Estadísticas salarys de los Employees */
+/* Estadísticas salarys de los employees */
 SELECT COUNT(*), MIN(salary), MAX(salary), AVG(salary), SUM(salary)
-FROM Employees;
+FROM employees;
 
 /* Estadísticas salarys por departamento */
-SELECT departmentId,
+SELECT department_id,
 	COUNT(*),
-	AVG(salary) angSalary,
-	AVG(salary * (1+fee)) salaryConfee,
-	SUM(salary) gastosalarys
-FROM Employees
-GROUP BY departmentId;
+	AVG(salary) avg_salary,
+	AVG(salary * (1+fee)) salary_with_fee,
+	SUM(salary) total_salaries
+FROM employees
+GROUP BY department_id;
 
 /* Estadísticas salarys por departamento con al menos dos empleado*/
-SELECT departmentId,
+SELECT department_id,
 	COUNT(*), 
-	AVG(salary) salaryMedio,
-	AVG(salary * (1+fee)) salaryConfee,
-	SUM(salary) gastosalarys
-FROM Employees
-GROUP BY departmentId HAVING COUNT(*)>1;
-/* Opción 2: Usando la vista EmployeesDepartments */
-CREATE OR REPLACE VIEW vEmployeesDepartments AS
+	AVG(salary) avg_salary,
+	AVG(salary * (1+fee)) salary_with_fee,
+	SUM(salary) total_salaries
+FROM employees
+GROUP BY department_id HAVING COUNT(*)>1;
+/* Opción 2: Usando la vista employees_departments */
+CREATE OR REPLACE VIEW v_employees_departments AS
 SELECT * 
-FROM Employees NATURAL JOIN Departments; 
+FROM employees NATURAL JOIN departments; 
 
-SELECT nameDep,
+SELECT name_dep,
 	COUNT(*), 
-	AVG(salary) salaryMedio,
-	AVG(salary * (1+fee)) salaryConfee,
-	SUM(salary) gastosalarys
-FROM vEmployeesDepartments
-GROUP BY departmentId HAVING COUNT(*)>1;
+	AVG(salary) avg_salary,
+	AVG(salary * (1+fee)) salary_with_fee,
+	SUM(salary) total_salaries
+FROM v_employees_departments
+GROUP BY department_id HAVING COUNT(*)>1;
 
-/* Employees con salary mayor que la media de su departamento*/ 
-SELECT * FROM Employees
+/* employees con salary mayor que la media de su departamento*/ 
+SELECT * FROM employees
 WHERE salary >
 ALL (SELECT AVG(salary)
-       FROM Employees
-       GROUP BY departmentId);
+       FROM employees
+       GROUP BY department_id);
        
-/* Departamento con más Employees */
+/* Departamento con más employees */
 /* Opción 1 */
-SELECT departmentId FROM Employees
-GROUP BY departmentId HAVING COUNT(*)>= ALL 
+SELECT department_id FROM employees
+GROUP BY department_id HAVING COUNT(*)>= ALL 
    ( SELECT COUNT(*) 
-     FROM Employees 
-     GROUP BY departmentId
+     FROM employees 
+     GROUP BY department_id
     );
 
 /* Opción 2 */
-SELECT departmentId FROM Employees
-GROUP BY departmentId HAVING COUNT(*) =
+SELECT department_id FROM employees
+GROUP BY department_id HAVING COUNT(*) =
    ( SELECT MAX(total) FROM
       ( SELECT COUNT(*) AS total
-        FROM Employees
-        GROUP BY departmentId
-       ) NumEmployees
+        FROM employees
+        GROUP BY department_id
+       ) num_employees
    );
    
 
-/* Vista con las estadísticas de los Employees por Departamento */
-CREATE OR REPLACE VIEW vStatEmployees AS 
-SELECT departmentId,
-	COUNT(*) AS numEmployees,
-	AVG(salary) salaryMedio,
-	AVG(salary * (1+fee)) salaryWithfee,
-	SUM(salary) totalSalary
-FROM Employees
-GROUP BY departmentId;
+/* Vista con las estadísticas de los employees por Departamento */
+CREATE OR REPLACE VIEW v_stat_employees AS 
+SELECT department_id,
+	COUNT(*) AS num_employees,
+	AVG(salary) avg_salary,
+	AVG(salary * (1+fee)) salary_with_fee,
+	SUM(salary) total_salary
+FROM employees
+GROUP BY department_id;
 
-/* Número de Employees que tiene el departamento con más Employees */
-SELECT MAX(numEmployees)
-FROM vStatEmployees;
+/* Número de employees que tiene el departamento con más employees */
+SELECT MAX(num_employees)
+FROM v_stat_employees;
