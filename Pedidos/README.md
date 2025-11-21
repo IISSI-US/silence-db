@@ -6,4 +6,4 @@ Base de datos de usuarios, productos y pedidos para practicar integridad y proce
 - Procedimiento `p_populate_orders` para carga inicial de datos.
 - Tests SQL en `tests/tests.sql` con harness `test_results`, `p_log_test` y orquestador `p_run_orders_tests`.
 
-*Diagrama ER pendiente de exportar a SVG en `exports/`.*
+![Diagrama ER](../diagramas/Pedidos/pedidos-dc.svg)

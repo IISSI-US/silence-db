@@ -1,26 +1,14 @@
 @startuml usuarios-dc-base
     title "Usuarios: caso base"
+
     hide circle
     hide empty members
 
-    Enum Genero << Enumerado >> {
-        MASCULINO
-        FEMENINO
-        OTRO
-    }
+    'Clases
+    !include clases.iuml
 
-    Class Usuario << Entidad >> {
-        nombre: String
-        genero: Genero
-        edad: Integer
-        email: String
-    }
-
-    ' Restricciones de negocio
-    Note as rn
-        RN01: Usuarios mayores de edad
-        RN02: Email único por usuario
-    End Note
+    'Restricciones de negocio
+    !include restricciones.iuml
 
 @enduml
 
@@ -29,26 +17,12 @@
     hide circle
     hide empty members
 
-    Enum Genero << Enumerado >> {
-        MASCULINO
-        FEMENINO
-        OTRO
-    }
-
-    Class Usuario << Entidad >> {
-        nombre: String
-        genero: Genero
-        edad: Integer
-        email: String
-    }
+    !include clases.iuml
+    !include restricciones.iuml
 
     'Asociaciones
     Usuario  "0..1" -- "0..*" Usuario: tutoraA
-    ' Restricciones de negocio
-    Note as rn
-        RN01: Usuarios mayores de edad
-        RN02: Email único por usuario
-    End Note
+    
 
     Note as ra
     Requisitos adicionales:
@@ -68,27 +42,13 @@
     hide circle
     hide empty members
 
-    Enum Genero << Enumerado >> {
-        MASCULINO
-        FEMENINO
-        OTRO
-    }
-
-    Class Usuario << Entidad >> {
-        nombre: String
-        genero: Genero
-        edad: Integer
-        email: String
-    }
+    !include clases.iuml
+    !include restricciones.iuml
 
     'Asociaciones
     Usuario  "*" -- "*" Usuario: hacePareja
     ' Restricciones de negocio
-    Note as rn
-        RN01: Usuarios mayores de edad
-        RN02: Email único por usuario
-    End Note
-
+    
     Note as ra
     Requisitos adicionales:
         RA01: La diferencia de edad entre

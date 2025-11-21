@@ -20,7 +20,8 @@ if [ "$extension" != "puml" ]; then
 fi
 
 # Exporta el archivo puml
-java -jar plantuml.jar -o ../exports/$dirpath "$1"
+rm -f ../uml/*.svg
+java -jar plantuml.jar -tsvg -o ../uml/ "$1"
 
 # Verifica si la compilación fue exitosa
 if [ $? -eq 0 ]; then

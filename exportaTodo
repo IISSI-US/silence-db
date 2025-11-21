@@ -6,12 +6,12 @@ rm -rf exports/*
 # ./exporta Aficiones/MainDinamico.puml
 # ./exporta Animales/Main.puml
 # ./exporta Apartamentos/Main.puml
-./exporta Bodegas/sql/diagrams.puml
-./exporta Empleados/sql/diagrams.puml
-# ./exporta Espectaculos/Main.puml
-#./exporta Pedidos/sql/.puml
-# ./exporta Proyectos/Main.puml
-./exporta Usuarios/sql/diagrams.puml
-# ./exporta Usuarios2/Main.puml
-./exporta Grados/sql/diagrams.puml
-# ./exporta Teoria/Main.puml
+./exporta Bodegas/uml/diagrams.puml
+./exporta Empleados/uml/diagrams.puml
+# # ./exporta Espectaculos/Main.puml
+./exporta Pedidos/uml/diagrams.puml
+# # ./exporta Proyectos/Main.puml
+./exporta Usuarios/uml/diagrams.puml
+# # ./exporta Usuarios2/Main.puml
+./exporta Grados/uml/diagrams.puml
+# # ./exporta Teoria/Main.puml

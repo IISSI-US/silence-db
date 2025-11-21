@@ -1,0 +1,12 @@
+    Enum Genero << Enumerado >> {
+        MASCULINO
+        FEMENINO
+        OTRO
+    }
+
+    Class Usuario << Entidad >> {
+        nombre: String
+        genero: Genero
+        edad: Integer
+        email: String
+    }

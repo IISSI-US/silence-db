@@ -1,4 +1,7 @@
 @startuml empleados-dc
+    title "Empleados: diagrama de clases"
+    hide circle
+    hide empty members
     class Departamento {
         nombre: String
         localidad: String

@@ -1,0 +1,32 @@
+@startuml pedidos-dc
+
+    hide circle
+    hide empty members
+
+    'Clases
+    !include clases.iuml
+
+    'Asociaciones
+    Usuario "*" -right- "*" Producto: Compra >
+    (Usuario, Producto) .. Pedido 
+
+    'Restricciones
+    !include restricciones.iuml
+
+
+@enduml
+
+@startuml pedidos-dc2
+
+    hide circle
+    hide empty members
+
+    !include clases.iuml
+
+    'Asociaciones
+    Usuario *-right- "*" Pedido : realiza >
+    Producto *-- "*" Pedido : esParteDe >
+
+    !include restricciones.iuml
+
+@enduml

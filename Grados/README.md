@@ -6,4 +6,4 @@ Sistema académico universitario con asignaturas, grupos, matrículas y califica
 - Procedimiento `p_populate_grados` para cargar datos de prueba.
 - Tests SQL en `tests/tests.sql` con harness `test_results`, `p_log_test` y orquestador `p_run_grados_tests`.
 
-![Diagrama ER](../exports/Grados/grados-dc.svg)
+![Diagrama ER](../diagramas/Grados/grados-dc.svg)
