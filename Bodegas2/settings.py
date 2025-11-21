@@ -17,8 +17,7 @@ DB_CONN = {
 # SQL scripts to run with `silence createdb`
 SQL_SCRIPTS = [
     "createDB.sql",
-    "populateDB.sql",
-    "tests/tests.sql",
+    "populateDB.sql"
 ]
 
 # The port in which the API and the web server will be deployed

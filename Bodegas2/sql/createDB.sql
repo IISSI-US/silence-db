@@ -42,14 +42,14 @@ CREATE TABLE young_wines (
     barrel_months TINYINT NOT NULL,
     bottle_months TINYINT NOT NULL,
     PRIMARY KEY (young_wine_id),
+    FOREIGN KEY (winery_id) REFERENCES wineries(winery_id),
     CONSTRAINT rn01_young_wines_unique_name UNIQUE (wine_name),
     CONSTRAINT rn02_young_wines_age CHECK (
         barrel_months <= 6 AND barrel_months + bottle_months <= 12
     ),
     CONSTRAINT rn03_young_wines_alcohol CHECK (
         alcohol_percent BETWEEN 10 AND 15
-    ),
-    CONSTRAINT fk_young_wines_winery FOREIGN KEY (winery_id) REFERENCES wineries(winery_id)
+    )
 );
 
 -- =============================================================
@@ -63,14 +63,14 @@ CREATE TABLE aged_wines (
     barrel_months TINYINT NOT NULL,
     bottle_months TINYINT NOT NULL,
     PRIMARY KEY (aged_wine_id),
+    FOREIGN KEY (winery_id) REFERENCES wineries(winery_id),
     CONSTRAINT rn01_aged_wines_unique_name UNIQUE (wine_name),
     CONSTRAINT rn02_aged_wines_age CHECK (
         barrel_months >= 6 AND barrel_months + bottle_months >= 24
     ),
     CONSTRAINT rn03_aged_wines_alcohol CHECK (
         alcohol_percent BETWEEN 10 AND 15
-    ),
-    CONSTRAINT fk_aged_wines_winery FOREIGN KEY (winery_id) REFERENCES wineries(winery_id)
+    )
 );
 
 -- =============================================================
@@ -92,8 +92,8 @@ CREATE TABLE harvests (
     harvest_year YEAR NOT NULL,
     quality VARCHAR(100) NOT NULL,
     PRIMARY KEY (harvest_id),
-    CONSTRAINT rn04_harvests_unique_year UNIQUE (aged_wine_id, harvest_year),
-    CONSTRAINT fk_harvests_aged_wine FOREIGN KEY (aged_wine_id) REFERENCES aged_wines(aged_wine_id) ON DELETE CASCADE
+    FOREIGN KEY (aged_wine_id) REFERENCES aged_wines(aged_wine_id) ON DELETE CASCADE,
+    CONSTRAINT rn04_harvests_unique_year UNIQUE (aged_wine_id, harvest_year)
 );
 
 -- =============================================================
@@ -105,19 +105,19 @@ CREATE TABLE wine_grapes (
     aged_wine_id VARCHAR(32),
     grape_id INT NOT NULL,
     PRIMARY KEY (wine_grape_id),
+    FOREIGN KEY (young_wine_id) REFERENCES young_wines(young_wine_id),
+    FOREIGN KEY (aged_wine_id) REFERENCES aged_wines(aged_wine_id),
+    FOREIGN KEY (grape_id) REFERENCES grapes(grape_id),
     CONSTRAINT uq_wine_grapes_young UNIQUE (young_wine_id, grape_id),
-    CONSTRAINT uq_wine_grapes_aged UNIQUE (aged_wine_id, grape_id),
-    CONSTRAINT fk_wine_grapes_young FOREIGN KEY (young_wine_id) REFERENCES young_wines(young_wine_id),
-    CONSTRAINT fk_wine_grapes_aged FOREIGN KEY (aged_wine_id) REFERENCES aged_wines(aged_wine_id),
-    CONSTRAINT fk_wine_grapes_grape FOREIGN KEY (grape_id) REFERENCES grapes(grape_id)
+    CONSTRAINT uq_wine_grapes_aged UNIQUE (aged_wine_id, grape_id)
 );
 
 -- =============================================================
 -- TRIGGERS RN05: Solo una FK (joven o crianza) por fila en wine_grapes
 -- =============================================================
 DELIMITER //
-CREATE OR REPLACE TRIGGER t_bi_wine_grapes_rn05
-BEFORE INSERT ON wine_grapes
+CREATE OR REPLACE TRIGGER t_biu_wine_grapes_rn05
+BEFORE INSERT OR UPDATE ON wine_grapes
 FOR EACH ROW
 BEGIN
     IF (NEW.young_wine_id IS NULL AND NEW.aged_wine_id IS NULL) OR
@@ -127,14 +127,4 @@ BEGIN
     END IF;
 END//
 
-CREATE OR REPLACE TRIGGER t_bu_wine_grapes_rn05
-BEFORE UPDATE ON wine_grapes
-FOR EACH ROW
-BEGIN
-    IF (NEW.young_wine_id IS NULL AND NEW.aged_wine_id IS NULL) OR
-       (NEW.young_wine_id IS NOT NULL AND NEW.aged_wine_id IS NOT NULL) THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'RN05: Debe existir solo una FK (joven o crianza) en wine_grapes';
-    END IF;
-END//
 DELIMITER ;

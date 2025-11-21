@@ -129,7 +129,7 @@ DELIMITER ;
 -- ORQUESTADOR
 -- =============================================================
 DELIMITER //
-CREATE OR REPLACE PROCEDURE p_run_bodegas2_tests()
+CREATE OR REPLACE PROCEDURE p_run_tests()
 BEGIN
     DELETE FROM test_results;
 
