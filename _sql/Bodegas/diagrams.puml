@@ -1,90 +1,86 @@
-@startuml bodegas-dc
-class Bodega{
-    nombre: String
-    denominaciónOrigen: String
-}
+@startuml bodegas-dc-base
+    title "Bodegas: caso base"
+    class Bodega{
+        nombre: String
+        denominaciónOrigen: String
+    }
 
-class Vino{
-    nombre: String
-    grados: Double
-}
+    class Vino{
+        nombre: String
+        grados: Double
+    }
 
 
-class Crianza{
-    tiempoBarrica: Integer
-    tiempoBotella: Integer
-}
-class Joven{
-    tiempoBarrica: Integer
-    tiempoBotella: Integer 
-}
-class Uva{
-    nombre: String
-}
-class Cosecha{
-    año: Year
-    calidad: String 
-}
+    class Crianza{
+        tiempoBarrica: Integer
+        tiempoBotella: Integer
+    }
 
-    
-    Bodega "1" -- "1..*" Vino : produce >
-    Vino <|--  Joven: "{completa,disjunta}"
-    Vino <|-- Crianza
-    Crianza *-- "1..*" Cosecha
-    Vino "0..*" -- "1..*" Uva : elaboradoCon >
+    class Joven{
+        tiempoBarrica: Integer
+        tiempoBotella: Integer 
+    }
+    class Uva{
+        nombre: String
+    }
+    class Cosecha{
+        año: Year
+        calidad: String 
+    }
 
-      
-'Agregamos notas al modelo
-    Note left of Bodega
+        
+        Bodega "1" -- "1..*" Vino : produce >
+        Vino <|--  Joven: "{completa,disjunta}"
+        Vino <|-- Crianza
+        Crianza *-- "1..*" Cosecha
+        Vino "0..*" -- "1..*" Uva : elaboradoCon >
+
+        
+    'Agregamos notas al modelo
+    Note as rn
         RN-1: Los nombres de las bodegas, 
         vinos y uvas son únicos
-    End Note
-    Note bottom of Crianza
-        RN-2: 24 meses de crianza: 6 y 12 meses 
+        RN-2: Joven: Menos de 6 meses en barrica
+        Crianza: 6 y 12 meses 
         en barrica y el resto en botella
-    End Note
-    Note right of Vino
-        RN-3: la graduación está entre 
+        RN-3: Draduación está entre 
         los 10 y 15 grados
-    End Note
-    Note right of Cosecha 
         RN-4: Cada vino de crianza tiene
         como máximo una cosecha por año
     End Note
-    Note right of Joven
-        RN-2: Menos de 6 meses en barrica
-    End Note
 @enduml
 
-@startuml bodegas-dc-examen
-class Bodega{
-    nombre: String
-    denominaciónOrigen: String
-}
+@startuml bodegas-dc-reservas
+    hide circle
+    hide empty members
+    class Bodega{
+        title "Bodegas: extensión"
+        nombre: String
+        denominaciónOrigen: String
+    }
 
-class Vino{
-    nombre: String
-    grados: Double
-}
+    class Vino{
+        nombre: String
+        grados: Double
+    }
 
 
-class Crianza{
-    tiempoBarrica: Integer
-    tiempoBotella: Integer
-}
-class Joven{
-    tiempoBarrica: Integer
-    tiempoBotella: Integer 
-}
-class Uva{
-    nombre: String
-}
-class Cosecha{
-    año: Year
-    calidad: String 
-}
+    class Crianza{
+        tiempoBarrica: Integer
+        tiempoBotella: Integer
+    }
+    class Joven{
+        tiempoBarrica: Integer
+        tiempoBotella: Integer 
+    }
+    class Uva{
+        nombre: String
+    }
+    class Cosecha{
+        año: Year
+        calidad: String 
+    }
 
-    title "Modelo de Bodegas: Ejercicio de Evaluación Continua"
     class Reserva <<Nuevo>>{
     tiempoBarrica: Integer
     tiempoBotella: Integer
@@ -115,31 +111,25 @@ class Cosecha{
     Vino "0..*" -l- "1..*" Uva : compuestoDe >
     Valoración -left[hidden]- TipoRanking
 'Agregamos notas al modelo
-    Note left of Bodega
+    Note as rn
         RN-1: Los nombres de las bodegas, 
         vinos y uvas son únicos
-    End Note
-    Note top of Crianza
-        RN-2: 24 meses de crianza: entre 6 y 12 
-        meses en barrica, el resto en botella
-    End Note
-    Note top of Joven
-        RN-2: Menos de 6 meses en barrica
-    End Note
-    Note right of Vino
-        RN-3: la graduación está entre 
+        RN-2: Joven: Menos de 6 meses en barrica
+        Crianza: 6 y 12 meses 
+        en barrica y el resto en botella
+        RN-3: Draduación está entre 
         los 10 y 15 grados
-    End Note
-    Note bottom of Cosecha 
         RN-4: Cada vino de crianza tiene
         como máximo una cosecha por año
     End Note
-    Note right of Reserva #FFDD99
-        RN-5: 36 meses de crianza: entre 12 y 24 
-        meses en barrica, el resto en botella
-    End Note
-    Note right of Valoración #FFDD99
-        RN-6: La puntuación está entre 0 y 100. 
-        Un vino no puede tener dos valoraciones del mismo ranking
-    End Note
+
+    Note as ra
+    Requisitos adicionales:
+        RA-1: Reservas: 36 meses de crianza: 
+        entre 12 y 24 meses en barrica, el resto 
+        en botella
+        RA-2: La puntuación está entre 0 y 100. Un 
+        vino no puede tener dos valoraciones 
+        del mismo ranking
+    end Note
 @enduml
