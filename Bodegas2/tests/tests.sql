@@ -66,6 +66,21 @@ END //
 DELIMITER ;
 
 DELIMITER //
+CREATE OR REPLACE PROCEDURE p_test_rn02b_age_limits_crianza()
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        CALL p_log_test('RN02B', 'RN02: Límites de meses en vinos de crianza', 'PASS');
+
+    CALL p_populate_bodegas2();
+
+    INSERT INTO aged_wines (aged_wine_id, winery_id, wine_name, alcohol_percent, barrel_months, bottle_months)
+        VALUES ('cy', 1, 'Crianza Invalida', 13.0, 4, 10);
+
+    CALL p_log_test('RN02B', 'ERROR: Se permitió un vino de crianza sin meses mínimos', 'FAIL');
+END //
+DELIMITER ;
+
+DELIMITER //
 CREATE OR REPLACE PROCEDURE p_test_rn03_alcohol_range()
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -120,6 +135,7 @@ BEGIN
 
     CALL p_test_rn01_unique_winery();
     CALL p_test_rn02_age_limits();
+    CALL p_test_rn02b_age_limits_crianza();
     CALL p_test_rn03_alcohol_range();
     CALL p_test_rn04_harvest_unique();
     CALL p_test_rn05_disjoint_fk();

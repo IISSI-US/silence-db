@@ -28,4 +28,4 @@ HTTP_PORT = 8087
 API_PREFIX = "/api/v1"
 
 # A random string that is used for security purposes
-SECRET_KEY = "DUMMY_SECRET_REPLACE_ME"
+SECRET_KEY = "7PzJw3ZuS08Q4_D1cEjp4kbcTVoml22y-5KZt3hMqY8"
