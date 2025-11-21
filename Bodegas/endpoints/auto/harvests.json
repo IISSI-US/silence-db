@@ -1,0 +1,62 @@
+{
+    "getAll": {
+        "description": "Gets all entries from 'harvests'",
+        "route": "/harvests",
+        "method": "GET",
+        "sql": "SELECT * FROM harvests",
+        "auth_required": false,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "getById": {
+        "description": "Gets an entry from 'harvests' by its primary key",
+        "route": "/harvests/$harvest_id",
+        "method": "GET",
+        "sql": "SELECT * FROM harvests WHERE harvest_id = $harvest_id",
+        "auth_required": false,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "create": {
+        "description": "Creates a new entry in 'harvests'",
+        "route": "/harvests",
+        "method": "POST",
+        "sql": "INSERT INTO harvests (wine_id, harvest_year, quality) VALUES ($wine_id, $harvest_year, $quality)",
+        "request_body_params": [
+            "wine_id",
+            "harvest_year",
+            "quality"
+        ],
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "update": {
+        "description": "Updates an existing entry in 'harvests' by its primary key",
+        "route": "/harvests/$harvest_id",
+        "method": "PUT",
+        "sql": "UPDATE harvests SET wine_id = $wine_id, harvest_year = $harvest_year, quality = $quality WHERE harvest_id = $harvest_id",
+        "request_body_params": [
+            "wine_id",
+            "harvest_year",
+            "quality"
+        ],
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "delete": {
+        "description": "Deletes an existing entry in 'harvests' by its primary key",
+        "route": "/harvests/$harvest_id",
+        "method": "DELETE",
+        "sql": "DELETE FROM harvests WHERE harvest_id = $harvest_id",
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    }
+}

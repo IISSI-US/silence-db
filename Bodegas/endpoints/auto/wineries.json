@@ -1,0 +1,60 @@
+{
+    "getAll": {
+        "description": "Gets all entries from 'wineries'",
+        "route": "/wineries",
+        "method": "GET",
+        "sql": "SELECT * FROM wineries",
+        "auth_required": false,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "getById": {
+        "description": "Gets an entry from 'wineries' by its primary key",
+        "route": "/wineries/$winery_id",
+        "method": "GET",
+        "sql": "SELECT * FROM wineries WHERE winery_id = $winery_id",
+        "auth_required": false,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "create": {
+        "description": "Creates a new entry in 'wineries'",
+        "route": "/wineries",
+        "method": "POST",
+        "sql": "INSERT INTO wineries (winery_name, origin_designation) VALUES ($winery_name, $origin_designation)",
+        "request_body_params": [
+            "winery_name",
+            "origin_designation"
+        ],
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "update": {
+        "description": "Updates an existing entry in 'wineries' by its primary key",
+        "route": "/wineries/$winery_id",
+        "method": "PUT",
+        "sql": "UPDATE wineries SET winery_name = $winery_name, origin_designation = $origin_designation WHERE winery_id = $winery_id",
+        "request_body_params": [
+            "winery_name",
+            "origin_designation"
+        ],
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "delete": {
+        "description": "Deletes an existing entry in 'wineries' by its primary key",
+        "route": "/wineries/$winery_id",
+        "method": "DELETE",
+        "sql": "DELETE FROM wineries WHERE winery_id = $winery_id",
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    }
+}

@@ -1,0 +1,60 @@
+{
+    "getAll": {
+        "description": "Gets all entries from 'wine_grapes'",
+        "route": "/wine_grapes",
+        "method": "GET",
+        "sql": "SELECT * FROM wine_grapes",
+        "auth_required": false,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "getById": {
+        "description": "Gets an entry from 'wine_grapes' by its primary key",
+        "route": "/wine_grapes/$wine_id",
+        "method": "GET",
+        "sql": "SELECT * FROM wine_grapes WHERE wine_id = $wine_id",
+        "auth_required": false,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "create": {
+        "description": "Creates a new entry in 'wine_grapes'",
+        "route": "/wine_grapes",
+        "method": "POST",
+        "sql": "INSERT INTO wine_grapes (wine_id, grape_id) VALUES ($wine_id, $grape_id)",
+        "request_body_params": [
+            "wine_id",
+            "grape_id"
+        ],
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "update": {
+        "description": "Updates an existing entry in 'wine_grapes' by its primary key",
+        "route": "/wine_grapes/$wine_id",
+        "method": "PUT",
+        "sql": "UPDATE wine_grapes SET wine_id = $wine_id, grape_id = $grape_id WHERE wine_id = $wine_id",
+        "request_body_params": [
+            "wine_id",
+            "grape_id"
+        ],
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "delete": {
+        "description": "Deletes an existing entry in 'wine_grapes' by its primary key",
+        "route": "/wine_grapes/$wine_id",
+        "method": "DELETE",
+        "sql": "DELETE FROM wine_grapes WHERE wine_id = $wine_id",
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    }
+}

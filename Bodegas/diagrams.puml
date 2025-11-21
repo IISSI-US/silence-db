@@ -1,5 +1,8 @@
 @startuml bodegas-dc-base
     title "Bodegas: caso base"
+    hide circle
+    hide empty members
+
     class Bodega{
         nombre: String
         denominaciónOrigen: String
@@ -51,10 +54,12 @@
 @enduml
 
 @startuml bodegas-dc-reservas
+    title "Bodegas: extensión"
+
     hide circle
     hide empty members
+    
     class Bodega{
-        title "Bodegas: extensión"
         nombre: String
         denominaciónOrigen: String
     }

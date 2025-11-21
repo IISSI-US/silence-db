@@ -1,0 +1,62 @@
+{
+    "getAll": {
+        "description": "Gets all entries from 'young_wines'",
+        "route": "/young_wines",
+        "method": "GET",
+        "sql": "SELECT * FROM young_wines",
+        "auth_required": false,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "getById": {
+        "description": "Gets an entry from 'young_wines' by its primary key",
+        "route": "/young_wines/$wine_id",
+        "method": "GET",
+        "sql": "SELECT * FROM young_wines WHERE wine_id = $wine_id",
+        "auth_required": false,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "create": {
+        "description": "Creates a new entry in 'young_wines'",
+        "route": "/young_wines",
+        "method": "POST",
+        "sql": "INSERT INTO young_wines (wine_id, barrel_months, bottle_months) VALUES ($wine_id, $barrel_months, $bottle_months)",
+        "request_body_params": [
+            "wine_id",
+            "barrel_months",
+            "bottle_months"
+        ],
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "update": {
+        "description": "Updates an existing entry in 'young_wines' by its primary key",
+        "route": "/young_wines/$wine_id",
+        "method": "PUT",
+        "sql": "UPDATE young_wines SET wine_id = $wine_id, barrel_months = $barrel_months, bottle_months = $bottle_months WHERE wine_id = $wine_id",
+        "request_body_params": [
+            "wine_id",
+            "barrel_months",
+            "bottle_months"
+        ],
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "delete": {
+        "description": "Deletes an existing entry in 'young_wines' by its primary key",
+        "route": "/young_wines/$wine_id",
+        "method": "DELETE",
+        "sql": "DELETE FROM young_wines WHERE wine_id = $wine_id",
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    }
+}

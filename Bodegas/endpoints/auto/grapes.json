@@ -1,0 +1,58 @@
+{
+    "getAll": {
+        "description": "Gets all entries from 'grapes'",
+        "route": "/grapes",
+        "method": "GET",
+        "sql": "SELECT * FROM grapes",
+        "auth_required": false,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "getById": {
+        "description": "Gets an entry from 'grapes' by its primary key",
+        "route": "/grapes/$grape_id",
+        "method": "GET",
+        "sql": "SELECT * FROM grapes WHERE grape_id = $grape_id",
+        "auth_required": false,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "create": {
+        "description": "Creates a new entry in 'grapes'",
+        "route": "/grapes",
+        "method": "POST",
+        "sql": "INSERT INTO grapes (grape_name) VALUES ($grape_name)",
+        "request_body_params": [
+            "grape_name"
+        ],
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "update": {
+        "description": "Updates an existing entry in 'grapes' by its primary key",
+        "route": "/grapes/$grape_id",
+        "method": "PUT",
+        "sql": "UPDATE grapes SET grape_name = $grape_name WHERE grape_id = $grape_id",
+        "request_body_params": [
+            "grape_name"
+        ],
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "delete": {
+        "description": "Deletes an existing entry in 'grapes' by its primary key",
+        "route": "/grapes/$grape_id",
+        "method": "DELETE",
+        "sql": "DELETE FROM grapes WHERE grape_id = $grape_id",
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    }
+}

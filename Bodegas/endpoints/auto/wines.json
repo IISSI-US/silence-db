@@ -1,0 +1,62 @@
+{
+    "getAll": {
+        "description": "Gets all entries from 'wines'",
+        "route": "/wines",
+        "method": "GET",
+        "sql": "SELECT * FROM wines",
+        "auth_required": false,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "getById": {
+        "description": "Gets an entry from 'wines' by its primary key",
+        "route": "/wines/$wine_id",
+        "method": "GET",
+        "sql": "SELECT * FROM wines WHERE wine_id = $wine_id",
+        "auth_required": false,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "create": {
+        "description": "Creates a new entry in 'wines'",
+        "route": "/wines",
+        "method": "POST",
+        "sql": "INSERT INTO wines (winery_id, wine_name, alcohol_percent) VALUES ($winery_id, $wine_name, $alcohol_percent)",
+        "request_body_params": [
+            "winery_id",
+            "wine_name",
+            "alcohol_percent"
+        ],
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "update": {
+        "description": "Updates an existing entry in 'wines' by its primary key",
+        "route": "/wines/$wine_id",
+        "method": "PUT",
+        "sql": "UPDATE wines SET winery_id = $winery_id, wine_name = $wine_name, alcohol_percent = $alcohol_percent WHERE wine_id = $wine_id",
+        "request_body_params": [
+            "winery_id",
+            "wine_name",
+            "alcohol_percent"
+        ],
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    },
+    "delete": {
+        "description": "Deletes an existing entry in 'wines' by its primary key",
+        "route": "/wines/$wine_id",
+        "method": "DELETE",
+        "sql": "DELETE FROM wines WHERE wine_id = $wine_id",
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ]
+    }
+}
