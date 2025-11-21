@@ -1,53 +1,82 @@
-
-### Silence is a DEAL research team project, more info about us in https://deal.us.es
 @BASE = http://127.0.0.1:8080/api/v1
 
-### Auxiliary query
-
-### Positive test
-### Test 00: Get all existing users
-# @name users
-GET {{BASE}}/users
-
-### Test 01: Get one existing user by its id
-@firstUserId = {{users.response.body.0.user_id}}
-GET {{BASE}}/users/{{firstUserId}}
-Content-Type: application/json
-
-### Test 02: Try get one existing users by its nonexistent id.
-### negative test 
-GET {{BASE}}/users/999999999
-Content-Type: application/json 
-
-
-### Test 03: Add a new users successfully
-# @name newUser
+### Cada petición tiene que empezar con 3 almohadillas.
+# Positivo: Crear un nuevo usuario con todos los datos correctos
+# según las reglas de negocio
 POST {{BASE}}/users 
 Content-Type: application/json 
 
 {
-	"full_name": "Test User",
+	"full_name": "Nuevo usuario",
 	"gender": "MASCULINO",
-	"age": "19",
-	"email": "test3@mail.com"
-} 
-
-### Test 04: Modify an existing users 
-### Positive test 
-@existingUserId = {{newUser.response.body.user_id}}
-@existingFullName = {{newUser.response.body.full_name}}
-@existingEmail = {{newUser.response.body.email}}
-PUT {{BASE}}/users/{{existingUserId}}
-Content-Type: application/json
-
-{ 
-	"full_name": "{{existingFullName}} Updated",
-	"gender": "FEMENINO",
-	"email": "{{existingEmail}}",
-	"age": 78
+	"age": 23,
+	"email": "nuevo@mail.com"
 }
 
-### Test 05: Delete the new user
-@newUserId = {{newUser.response.body.user_id}}
-DELETE {{BASE}}/users/{{newUserId}}
+###
+# Positivo: Crear un nuevo usuario sin especificar el género.
+@name=test2
+POST {{BASE}}/users 
+Content-Type: application/json 
 
+{
+	"full_name": "Usuario sin genero",
+	"age": 54,
+	"email": "singenero@mail.com"
+}
+
+###
+# Negativo: Crear un nuevo usuario sin nombre.
+POST {{BASE}}/users 
+Content-Type: application/json 
+
+{
+	"gender": "MASCULINO",
+	"age": 23,
+	"email": "sinnombre@mail.com"
+}
+
+###
+# Negativo: Crear un nuevo usuario sin edad.
+POST {{BASE}}/users 
+Content-Type: application/json 
+
+{
+	"full_name": "Usuario sin edad",
+	"gender": "MASCULINO",
+	"email": "sinedad@mail.com"
+}
+
+### 
+# Negativo: Crear un nuevo usuario sin email.
+POST {{BASE}}/users 
+Content-Type: application/json 
+
+{
+	"full_name": "Usuario sin email",
+	"gender": "MASCULINO",
+	"age": 54
+}
+
+### 
+# Negativo: Crear un nuevo usuario con el correo repetido.
+POST {{BASE}}/users 
+Content-Type: application/json 
+
+{
+	"full_name": "Nuevo usuario",
+	"gender": "MASCULINO",
+	"age": 23,
+	"email": "nuevo@mail.com"
+}
+### 
+# Negativo: Crear un nuevo usuario menor de edad.
+POST {{BASE}}/users 
+Content-Type: application/json 
+
+{
+	"full_name": "Usuario menor",
+	"gender": "OTRO",
+	"age": 12,
+	"email": "menor@mail.com"
+}
