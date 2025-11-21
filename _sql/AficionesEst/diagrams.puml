@@ -1,10 +1,15 @@
 @startuml aficiones-est-dc
 
-Enum Género << Enumerado >>{
-    Masculino
-    Femenino
-    Otros
-} 
+    title "Aficiones conjunto cerrado"
+    
+    hide circle
+    hide empty members  
+
+    Enum Género << Enumerado >>{
+        Masculino
+        Femenino
+        Otros
+    } 
     Class Usuario << Entidad >>{
         nombre: String
         género: Género

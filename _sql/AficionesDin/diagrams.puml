@@ -1,13 +1,14 @@
 @startuml aficiones-din-dc
 
-hide circle
-hide empty members
+    title "Aficiones conjunto abierto"
+    hide circle
+    hide empty members
 
-Enum Género << Enumerado >>{
-    Masculino
-    Femenino
-    Otros
-} 
+    Enum Género << Enumerado >>{
+        Masculino
+        Femenino
+        Otros
+    } 
     Class Usuario << Entidad >>{
         nombre: String
         género: Género
