@@ -11,13 +11,21 @@ DB_CONN = {
     "port": 3306,
     "username": "iissi_user",
     "password": "iissi$user",
-    "database": "my_database",
+    "database": "EmployeesDB",
 }
 
 # The sequence of SQL scripts located in the sql/ folder that must
 # be ran when the 'silence createdb' command is issued
 SQL_SCRIPTS = [
-    # Reference your sql files here, e.g. "create_tables.sql"
+    "createDB.sql",
+    "tChangeFee.sql",
+    "tDefaultStartDate.sql",
+    "tMaxEmployeesDepartment.sql",
+    "tSelfBoss.sql",
+    "fAvgFee.sql",
+    "fNumEmployees.sql",
+    "fSumSalaries.sql",
+    "populateDB.sql"
 ]
 
 # The port in which the API and the web server will be deployed

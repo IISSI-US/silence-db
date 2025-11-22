@@ -1,4 +1,4 @@
--- PRUEBAS
+-- PRUEBAS -- OBSOLETO: AHORA ESTÁN EN tests/tests.sql
 -- Para la correcta realización de estas pruebas, la base de datos debe estar inicialmente vacía (sin datos)
 
 

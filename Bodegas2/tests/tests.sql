@@ -144,3 +144,5 @@ BEGIN
     SELECT test_status, COUNT(*) AS total FROM test_results GROUP BY test_status;
 END //
 DELIMITER ;
+
+call p_run_tests();

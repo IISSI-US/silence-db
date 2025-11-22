@@ -23,5 +23,5 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL p_populate_db();
-CALL p_insert_employee(6, 1, NULL, 'Daniel', '2020-09-15', NULL, 2500.0, 0.2); 
+-- CALL p_populate_db();
+-- CALL p_insert_employee(6, 1, NULL, 'Daniel', '2020-09-15', NULL, 2500.0, 0.2); 

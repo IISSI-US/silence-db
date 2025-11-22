@@ -305,3 +305,5 @@ BEGIN
     SELECT test_status, COUNT(*) AS total FROM test_results GROUP BY test_status;
 END //
 DELIMITER ;
+
+CALL p_run_grados_tests();

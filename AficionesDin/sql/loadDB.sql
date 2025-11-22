@@ -3,4 +3,3 @@ SELECT '>>> Creando BD HobbiesDynamicDB';
 SOURCE createDB.sql;
 SOURCE populateDB.sql;
 SOURCE procedures.sql;
-SOURCE ../tests/tests.sql;

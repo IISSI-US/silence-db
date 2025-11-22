@@ -17,6 +17,6 @@ BEGIN
 END//
 DELIMITER ;
 
-SELECT *, f_num_employees(d.city) num_employees
-FROM departments d
-;
+-- SELECT *, f_num_employees(d.city) num_employees
+-- FROM departments d
+-- ;
