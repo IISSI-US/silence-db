@@ -11,13 +11,16 @@ DB_CONN = {
     "port": 3306,
     "username": "iissi_user",
     "password": "iissi$user",
-    "database": "my_database",
+    "database": "HobbiesStaticDB",
 }
 
 # The sequence of SQL scripts located in the sql/ folder that must
 # be ran when the 'silence createdb' command is issued
 SQL_SCRIPTS = [
-    # Reference your sql files here, e.g. "create_tables.sql"
+    "createDB.sql",
+    "populateDB.sql",
+    "fCinePorDeporte.sql",
+    "tests/tests.sql",
 ]
 
 # The port in which the API and the web server will be deployed
