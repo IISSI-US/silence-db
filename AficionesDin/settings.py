@@ -1,5 +1,5 @@
 ###############################################################################
-# Project-specific settings
+# Project-specific settings for Aficiones Dinámicas
 ###############################################################################
 
 # Shows debug messages while Silence is running
@@ -11,30 +11,21 @@ DB_CONN = {
     "port": 3306,
     "username": "iissi_user",
     "password": "iissi$user",
-    "database": "my_database",
+    "database": "HobbiesDynamicDB",
 }
 
-# The sequence of SQL scripts located in the sql/ folder that must
-# be ran when the 'silence createdb' command is issued
+# SQL scripts to run with `silence createdb`
 SQL_SCRIPTS = [
-    # Reference your sql files here, e.g. "create_tables.sql"
+    "createDB.sql",
+    "populateDB.sql",
+    "procedures.sql",
 ]
 
 # The port in which the API and the web server will be deployed
-HTTP_PORT = 8080
+HTTP_PORT = 8081
 
 # The URL prefix for all API endpoints
 API_PREFIX = "/api/v1"
 
-# Table and fields that are used for both login and register
-# Uncomment this and set up your own table and columns:
-
-#USER_AUTH_DATA = {
-#    "table": "Employees",
-#    "identifier": "email",
-#    "password": "password",
-#}
-
 # A random string that is used for security purposes
-# (this has been generated automatically upon project creation)
-SECRET_KEY = "8WJ1RudaYhlGh0R6odKoVD9G1Ua5bobwdU9ZOIvCaaA"
+SECRET_KEY = "Fku7kMn9yziD6bYkGG4Xz7b4zfgq4EJuUWdIMwZHX9E"

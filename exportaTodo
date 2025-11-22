@@ -3,7 +3,7 @@
 rm -rf exports/*
 
 ./exporta AficionesEst/uml/diagrams.puml
-# ./exporta Aficiones/MainDinamico.puml
+./exporta AficionesDin/uml/diagrams.puml
 # ./exporta Animales/Main.puml
 # ./exporta Apartamentos/Main.puml
 ./exporta Bodegas/uml/diagrams.puml
