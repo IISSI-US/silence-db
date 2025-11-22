@@ -10,3 +10,4 @@ SOURCE fNumEmployees.sql
 SOURCE fSumSalaries.sql
 SOURCE populateDB.sql
 
+SOURCE ../tests/tests.sql;

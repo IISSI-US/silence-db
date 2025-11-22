@@ -5,3 +5,5 @@ SOURCE tCheckAge.sql
 SOURCE fGetAge.sql
 SOURCE fEmailDomain.sql
 SOURCE populateDB.sql
+
+SOURCE ../tests/tests.sql;
