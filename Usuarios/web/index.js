@@ -38,7 +38,7 @@ async function loadUsers() {
         wrapper.innerHTML = "";
         let node;
         if (viewMode === "table") {
-            node = userRenderer.asTable(users);
+            node = userRenderer.asTabular(users);
         } else {
             node = userRenderer.asCards(users);
         }
