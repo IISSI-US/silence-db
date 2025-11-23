@@ -22,7 +22,8 @@ SQL_SCRIPTS = [
     "tCheckAge.sql",
     "fGetAge.sql",
     "fEmailDomain.sql",
-    "populateDB.sql"
+    "populateDB.sql",
+    "avatars.sql",
 ]
 
 

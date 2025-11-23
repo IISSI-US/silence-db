@@ -36,13 +36,13 @@ const userRenderer = {
     for (const u of users) {
       html += `<div class="col-md-4 col-sm-6">
         <div class="card h-100">
-          <div class="card-body">
+          <img src="/images/${u.avatar_url}" class="rounded-circle mx-auto d-block" style="width: 80px; height: 80px;" alt="Avatar de ${u.full_name}">
+          <div class="card-body text-center">
             <h5 class="card-title">${u.full_name}</h5>
             <p class="card-text">
-              <strong>ID:</strong> ${u.user_id}<br>
-              <strong>Género:</strong> ${u.gender}<br>
-              <strong>Edad:</strong> ${u.age}<br>
-              <strong>Email:</strong> ${u.email}
+              <span class="badge bg-secondary">${u.gender}</span><br>
+              <strong>${u.age} años</strong> <br>
+              ${u.email}
             </p>
           </div>
         </div>
