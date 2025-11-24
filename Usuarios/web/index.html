@@ -8,14 +8,12 @@
     <link rel="icon" href="images/favicon.ico">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
+    <script src="/js/utils/include.js"></script>
 </head>
 
-<body class="bg-dark">
-    <header class="navbar navbar-dark bg-primary mb-4">
-        <div class="container">
-            <span class="navbar-brand mb-0 h1 mx-auto">Usuarios | Silence</span>
-        </div>
-    </header>
+<body class="bg-light">
+    <div id="page-header"></div>
+    
     <main class="container my-4">
         <div id="errors" class="mb-3"><!-- Mensajes desde messageRenderer --></div>
         <div class="card shadow-sm">
@@ -25,12 +23,14 @@
             </div>
         </div>
     </main>
-    <footer class="bg-light text-center py-3 mt-4">
-        <div class="container">
-            <p class="mb-0">Introducción a la Ingeniería del Software y los Sistemas de Información.</p>
-        </div>
-    </footer>
 
+    <div id="page-footer"></div>
+
+    <script> 
+        include ("header.html","#page-header");
+        include ("footer.html","#page-footer");
+    </script>
+    
     <script src="js/libs/axios.min.js"></script>
     <script src="js/libs/bootstrap.min.js"></script>
     <script type="module" src="index.js"></script>
