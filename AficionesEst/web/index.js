@@ -7,48 +7,41 @@ import { hobbiesRenderer } from "/js/renderers/hobbiesRenderer.js";
 
 document.addEventListener("DOMContentLoaded", main);
 
-function main() {
-    loadData();
-}
-
-
-async function loadData() {
-    try {
-        const data = await v_user_hobbiesAPI_auto.getAll();
-        const groupedData = groupUsersWithHobbies(data);
-        const wrapper = document.getElementById("wrapper");
-        wrapper.innerHTML = "";
-        let node;
-        node = hobbiesRenderer.asCards(groupedData);
-        wrapper.append(node);
-    } catch (err) {
-        messageRenderer.showErrorMessage("No se han podido obtener los usuarios", err);
-    }
+async function main() {
+  try {
+    const data = await v_user_hobbiesAPI_auto.getAll();
+    const groupedUsers = groupUsersWithHobbies(data);
+    const wrapper = document.getElementById("wrapper");
+    wrapper.replaceChildren(hobbiesRenderer.asCards(groupedUsers));
+  } catch (err) {
+    messageRenderer.showErrorMessage("No se han podido obtener los usuarios", err);
+  }
 }
 
 function groupUsersWithHobbies(data) {
-    const usersMap = new Map();
+  const users = [];
 
-    for (const item of data) {
-        const userId = item.user_id;
-        if (!usersMap.has(userId)) {
-            usersMap.set(userId, {
-                user_id: item.user_id,
-                full_name: item.full_name,
-                avatar_url: item.avatar_url,
-                email: item.email,
-                gender: item.gender,
-                age: item.age,
-                hobbies: []
-            });
-        }
-        usersMap.get(userId).hobbies.push({
-            hobby_id: item.hobby_id,
-            hobby: item.hobby
-        });
+  for (const item of data) {
+    let user = users.find((u) => u.user_id === item.user_id);
+
+    if (!user) {
+      user = {
+        user_id: item.user_id,
+        full_name: item.full_name,
+        avatar_url: item.avatar_url,
+        email: item.email,
+        gender: item.gender,
+        age: item.age,
+        hobbies: []
+      };
+      users.push(user);
     }
 
-    return Array.from(usersMap.values());
+    user.hobbies.push({
+      hobby_id: item.hobby_id,
+      hobby: item.hobby
+    });
+  }
+
+  return users;
 }
-
-

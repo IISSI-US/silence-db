@@ -3,20 +3,19 @@
 import { parseHTML } from "/js/utils/parseHTML.js";
 
 const hobbiesRenderer = {
-  asCards: function (users) {
+  asCards(users) {
     let html = "";
-    for (const u of users) {
-      const cardNode = this.asCard(u);
-      html += cardNode.outerHTML;
+    for (const user of users) {
+      html += this.asCard(user).outerHTML;
     }
+
     return parseHTML(`<div class="row">${html}</div>`);
   },
 
-  asCard: function (user) {
-    // Crear lista de hobbies
+  asCard(user) {
     let hobbiesHtml = "";
-    for (const h of user.hobbies) {
-      hobbiesHtml += `<span class="badge bg-primary me-1">${h.hobby}</span>`;
+    for (const hobby of user.hobbies) {
+      hobbiesHtml += `<span class="badge bg-primary me-1">${hobby.hobby}</span>`;
     }
 
     const html = `<div class="col-md-4 col-sm-6">
