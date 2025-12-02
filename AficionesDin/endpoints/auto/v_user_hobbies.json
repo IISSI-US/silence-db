@@ -1,0 +1,12 @@
+{
+    "getAll": {
+        "description": "Gets all entries from 'v_user_hobbies'",
+        "route": "/v_user_hobbies",
+        "method": "GET",
+        "sql": "SELECT * FROM v_user_hobbies",
+        "auth_required": false,
+        "allowed_roles": [
+            "*"
+        ]
+    }
+}

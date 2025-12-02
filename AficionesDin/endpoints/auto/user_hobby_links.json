@@ -28,7 +28,7 @@
             "user_id",
             "hobby_id"
         ],
-        "auth_required": true,
+        "auth_required": false,
         "allowed_roles": [
             "*"
         ]
@@ -42,7 +42,7 @@
             "user_id",
             "hobby_id"
         ],
-        "auth_required": true,
+        "auth_required": false,
         "allowed_roles": [
             "*"
         ]
@@ -52,7 +52,7 @@
         "route": "/user_hobby_links/$user_hobby_id",
         "method": "DELETE",
         "sql": "DELETE FROM user_hobby_links WHERE user_hobby_id = $user_hobby_id",
-        "auth_required": true,
+        "auth_required": false,
         "allowed_roles": [
             "*"
         ]

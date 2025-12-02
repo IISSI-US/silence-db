@@ -23,14 +23,15 @@
         "description": "Creates a new entry in 'users'",
         "route": "/users",
         "method": "POST",
-        "sql": "INSERT INTO users (full_name, gender, age, email) VALUES ($full_name, $gender, $age, $email)",
+        "sql": "INSERT INTO users (full_name, gender, age, email, avatar_url) VALUES ($full_name, $gender, $age, $email, $avatar_url)",
         "request_body_params": [
             "full_name",
             "gender",
             "age",
-            "email"
+            "email",
+            "avatar_url"
         ],
-        "auth_required": true,
+        "auth_required": false,
         "allowed_roles": [
             "*"
         ]
@@ -39,14 +40,15 @@
         "description": "Updates an existing entry in 'users' by its primary key",
         "route": "/users/$user_id",
         "method": "PUT",
-        "sql": "UPDATE users SET full_name = $full_name, gender = $gender, age = $age, email = $email WHERE user_id = $user_id",
+        "sql": "UPDATE users SET full_name = $full_name, gender = $gender, age = $age, email = $email, avatar_url = $avatar_url WHERE user_id = $user_id",
         "request_body_params": [
             "full_name",
             "gender",
             "age",
-            "email"
+            "email",
+            "avatar_url"
         ],
-        "auth_required": true,
+        "auth_required": false,
         "allowed_roles": [
             "*"
         ]
@@ -56,7 +58,7 @@
         "route": "/users/$user_id",
         "method": "DELETE",
         "sql": "DELETE FROM users WHERE user_id = $user_id",
-        "auth_required": true,
+        "auth_required": false,
         "allowed_roles": [
             "*"
         ]

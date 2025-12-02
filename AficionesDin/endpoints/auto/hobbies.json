@@ -27,7 +27,7 @@
         "request_body_params": [
             "hobby_name"
         ],
-        "auth_required": true,
+        "auth_required": false,
         "allowed_roles": [
             "*"
         ]
@@ -40,7 +40,7 @@
         "request_body_params": [
             "hobby_name"
         ],
-        "auth_required": true,
+        "auth_required": false,
         "allowed_roles": [
             "*"
         ]
@@ -50,7 +50,7 @@
         "route": "/hobbies/$hobby_id",
         "method": "DELETE",
         "sql": "DELETE FROM hobbies WHERE hobby_id = $hobby_id",
-        "auth_required": true,
+        "auth_required": false,
         "allowed_roles": [
             "*"
         ]

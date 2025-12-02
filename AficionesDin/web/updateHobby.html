@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar aficiones - Aficiones Dinámicas</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <script src="/js/utils/include.js"></script>
+</head>
+<body class="bg-light">
+  <div id="page-header"></div>
+
+  <main class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <button id="back-button" class="btn btn-outline-secondary">&larr; Volver</button>
+      <div id="errors" class="mb-0"></div>
+    </div>
+
+    <div class="card shadow-sm mb-3">
+      <div class="card-body d-flex align-items-center">
+        <img id="user-avatar" src="" class="rounded-circle me-3" style="width: 72px; height: 72px;" alt="Avatar">
+        <div>
+          <h5 id="user-name" class="mb-1"></h5>
+          <div id="user-meta" class="text-muted small"></div>
+          <div id="user-email" class="small"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 mb-3">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title">Aficiones del usuario</h5>
+            <ul id="current-hobbies" class="list-group list-group-flush"></ul>
+            <small class="text-muted">Pulsa eliminar para quitar la afición del usuario.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 mb-3">
+        <div class="card shadow-sm mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Añadir afición</h5>
+            <form id="add-form" class="row gy-2 align-items-center" novalidate>
+              <div class="col-12">
+                <label class="form-label" for="add-hobby">Selecciona una afición</label>
+                <select class="form-select" id="add-hobby" name="hobby_id" required></select>
+              </div>
+              <div class="col-12 d-flex justify-content-end">
+                <button class="btn btn-primary" type="submit">Añadir</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Actualizar afición</h5>
+            <form id="update-form" class="row gy-2" novalidate>
+              <div class="col-12">
+                <label class="form-label" for="current-link">Afición actual</label>
+                <select class="form-select" id="current-link" name="user_hobby_id" required></select>
+              </div>
+              <div class="col-12">
+                <label class="form-label" for="new-hobby">Nueva afición</label>
+                <select class="form-select" id="new-hobby" name="new_hobby_id" required></select>
+              </div>
+              <div class="col-12 d-flex justify-content-end">
+                <button id="update-submit" class="btn btn-warning text-white" type="submit">Actualizar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="page-footer"></div>
+
+  <script>
+    include("header.html", "#page-header");
+    include("footer.html", "#page-footer");
+  </script>
+
+  <script src="js/libs/axios.min.js"></script>
+  <script src="js/libs/bootstrap.min.js"></script>
+  <script type="module" src="updateHobby.js"></script>
+</body>
+</html>
