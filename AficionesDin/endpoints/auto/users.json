@@ -23,13 +23,12 @@
         "description": "Creates a new entry in 'users'",
         "route": "/users",
         "method": "POST",
-        "sql": "INSERT INTO users (full_name, gender, age, email, avatar_url) VALUES ($full_name, $gender, $age, $email, $avatar_url)",
+        "sql": "INSERT INTO users (full_name, gender, age, email) VALUES ($full_name, $gender, $age, $email)",
         "request_body_params": [
             "full_name",
             "gender",
             "age",
-            "email",
-            "avatar_url"
+            "email"
         ],
         "auth_required": true,
         "allowed_roles": [
@@ -40,13 +39,12 @@
         "description": "Updates an existing entry in 'users' by its primary key",
         "route": "/users/$user_id",
         "method": "PUT",
-        "sql": "UPDATE users SET full_name = $full_name, gender = $gender, age = $age, email = $email, avatar_url = $avatar_url WHERE user_id = $user_id",
+        "sql": "UPDATE users SET full_name = $full_name, gender = $gender, age = $age, email = $email WHERE user_id = $user_id",
         "request_body_params": [
             "full_name",
             "gender",
             "age",
-            "email",
-            "avatar_url"
+            "email"
         ],
         "auth_required": true,
         "allowed_roles": [

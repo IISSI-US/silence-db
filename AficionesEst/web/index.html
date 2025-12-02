@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AficionesEst - Gestión de Usuarios y Aficiones</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <script src="/js/utils/include.js"></script>
+
+</head>
+<body class="bg-light">
+    <div id="page-header"></div>
+    
+    <main class="container my-4">
+        <div id="errors" class="mb-3"><!-- Mensajes desde messageRenderer --></div>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div id="wrapper"><!-- Contenido renderizado por userRenderer --></div>
+            </div>
+    </main>
+
+
+    <div id="page-footer"></div>
+
+    <script> 
+        include ("header.html","#page-header");
+        include ("footer.html","#page-footer");
+    </script>
+    
+    <script src="js/libs/axios.min.js"></script>
+    <script src="js/libs/bootstrap.min.js"></script>
+    <script type="module" src="index.js"></script>
+</body>
+
+</html>
+
