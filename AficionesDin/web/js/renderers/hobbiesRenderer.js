@@ -71,7 +71,7 @@ const hobbiesRenderer = {
       <div class="card mb-3">
         <div class="row g-0">
           <div class="col-md-4">
-            <img src="/images/${user.avatar_url}" class="rounded-circle mx-auto d-block mt-3" style="width: 100px; height: 100px;" alt="Avatar de ${user.full_name}">
+            <img src="/images/${user.avatar_url}" class="rounded-circle mx-auto d-block mt-3" style="width: 200px; height: 200px;" alt="Avatar de ${user.full_name}">
           </div>
           <div class="col-md-8">
             <div class="card-body">
