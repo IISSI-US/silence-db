@@ -2,6 +2,14 @@
 
 import { parseHTML } from "/js/utils/parseHTML.js";
 
+/**
+ * Renderizador reutilizable para mostrar usuarios con aficiones
+ * 
+ * Métodos públicos:
+ * - asCards(users): Genera múltiples tarjetas para la vista principal (index)
+ * - asCard(user): Genera una tarjeta individual clickeable con hobbies
+ * - asEditCard(user, userHobbyLinks): Genera una tarjeta editable con badges clickeables para borrar
+ */
 const hobbiesRenderer = {
   asCards(users) {
     let html = "";
