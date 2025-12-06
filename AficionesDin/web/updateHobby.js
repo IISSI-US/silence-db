@@ -45,7 +45,7 @@ async function loadAndRender(userId) {
     const wrapper = document.getElementById("wrapper");
     wrapper.innerHTML = "";
 
-    const pageContent = hobbiesRenderer.asEditPage(user, user.hobbies, []);
+    const pageContent = hobbiesRenderer.asEditCard(user, user.hobbies);
     wrapper.appendChild(pageContent);
 
     wireEvents(userId);
