@@ -32,9 +32,25 @@ END //
 DELIMITER ;
 
 -- =============================================================
--- TESTS (RN01 - RN16)
+-- TESTS (RN001 - RN016)
 -- =============================================================
 
+-- Test RN001: Matrícula de honor requiere nota >= 9
+DELIMITER //
+CREATE OR REPLACE PROCEDURE p_test_rn001_mh_requirement()
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        CALL p_log_test('RN001', 'RN001: La MH requiere nota >= 9', 'PASS');
+
+    CALL p_populate_grados();
+
+    UPDATE grades SET with_honors = 1 WHERE grade_id = 21;
+
+    CALL p_log_test('RN001', 'ERROR: Se permitió MH con nota inferior a 9', 'FAIL');
+END //
+DELIMITER ;
+
+-- Test RN002: No se permiten notas duplicadas por asignatura/convocatoria
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_test_rn002_duplicate_grade()
 BEGIN
@@ -50,6 +66,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Test RN003: Un grupo no puede tener más de 2 profesores
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_test_rn003_professors_per_group()
 BEGIN
@@ -64,6 +81,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Test RN004: Un alumno no puede pertenecer a más de un grupo de teoría y uno de laboratorio por asignatura
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_test_rn004_student_group_limit()
 BEGIN
@@ -78,6 +96,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Test RN005: Una nota no puede alterarse en más de 4 puntos
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_test_rn005_grade_delta()
 BEGIN
@@ -92,6 +111,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Test RN006: No puede haber más de un grupo de teoría y dos de laboratorio por asignatura
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_test_rn006_extra_group()
 BEGIN
@@ -107,6 +127,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Test RN007: Un alumno sólo puede pertenecer a grupos de asignaturas en las que está matriculado
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_test_rn007_subject_enrollment()
 BEGIN
@@ -138,7 +159,9 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Test RN008: Un alumno no puede acceder por selectividad con menos de 16 años
 DELIMITER //
+CREATE OR REPLACE PROCEDURE p_test_rn008_min_age()
 CREATE OR REPLACE PROCEDURE p_test_rn009_not_null_attributes()
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -169,6 +192,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Test RN010: Los créditos de una asignatura pueden ser 6 o 12
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_test_rn010_subject_credits()
 BEGIN
@@ -184,6 +208,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Test RN011: El valor de la nota está comprendido entre 0 y 10
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_test_rn011_grade_range()
 BEGIN
@@ -199,6 +224,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Test RN012: La edad de las personas está entre 16 y 70 años
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_test_rn012_people_age()
 BEGIN
@@ -214,6 +240,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Test RN013: Los años de un grado están entre 3 y 6
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_test_rn013_degree_years()
 BEGIN
@@ -229,6 +256,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Test RN014: El DNI está formado por 8 números y una letra
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_test_rn014_dni_format()
 BEGIN
@@ -244,6 +272,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Test RN015: El año académico está entre 2000 y 2100
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_test_rn015_academic_year()
 BEGIN
@@ -259,6 +288,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Test RN016: El curso de una asignatura está entre 1 y 6
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_test_rn016_course_range()
 BEGIN
