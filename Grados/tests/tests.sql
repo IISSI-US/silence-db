@@ -162,22 +162,6 @@ DELIMITER ;
 -- Test RN008: Un alumno no puede acceder por selectividad con menos de 16 años
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_test_rn008_min_age()
-CREATE OR REPLACE PROCEDURE p_test_rn009_not_null_attributes()
-BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-        CALL p_log_test('RN009', 'RN009: Los atributos obligatorios no pueden quedar a NULL', 'PASS');
-
-    CALL p_populate_grados();
-
-    INSERT INTO people (person_id, dni, first_name, last_name, age, email, role, password_hash)
-        VALUES (103, '20000003C', NULL, 'Campos', 22, 'null@alum.us.es', 'student', 'pbkdf2_sha256$1$00$00');
-
-    CALL p_log_test('RN009', 'ERROR: Se permitió dejar atributos obligatorios a NULL', 'FAIL');
-END //
-DELIMITER ;
-
-DELIMITER //
-CREATE OR REPLACE PROCEDURE p_test_rn008_min_age()
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN008', 'RN008: No se permite Selectividad con menos de 16 años', 'PASS');
@@ -189,6 +173,22 @@ BEGIN
     INSERT INTO students (student_id, access_method) VALUES (104, 'Selectividad');
 
     CALL p_log_test('RN008', 'ERROR: Se permitió Selectividad para un menor', 'FAIL');
+END //
+DELIMITER ;
+
+-- Test RN009: Los atributos obligatorios no pueden quedar a NULL
+DELIMITER //
+CREATE OR REPLACE PROCEDURE p_test_rn009_not_null_attributes()
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        CALL p_log_test('RN009', 'RN009: Los atributos obligatorios no pueden quedar a NULL', 'PASS');
+
+    CALL p_populate_grados();
+
+    INSERT INTO people (person_id, dni, first_name, last_name, age, email, role, password_hash)
+        VALUES (103, '20000003C', NULL, 'Campos', 22, 'null@alum.us.es', 'student', 'pbkdf2_sha256$1$00$00');
+
+    CALL p_log_test('RN009', 'ERROR: Se permitió dejar atributos obligatorios a NULL', 'FAIL');
 END //
 DELIMITER ;
 
