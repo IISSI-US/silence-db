@@ -4,4 +4,3 @@ SOURCE createDB.sql
 SOURCE populate.sql
 SOURCE grants.sql
 
-SOURCE ../tests/tests.sql;

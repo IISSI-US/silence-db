@@ -185,7 +185,7 @@ END //
 DELIMITER ;
 
 DELIMITER //
-CREATE OR REPLACE PROCEDURE p_test_rn011_grade_range())
+CREATE OR REPLACE PROCEDURE p_test_rn011_grade_range()
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN011', 'RN011: La nota debe estar entre 0 y 10', 'PASS');
