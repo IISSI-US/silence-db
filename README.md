@@ -12,6 +12,7 @@ Repositorio con múltiples proyectos de bases de datos usando el framework Silen
 - **Grados**: Sistema académico universitario con asignaturas, grupos, matrículas y calificaciones.
 - **Pedidos**: Sistema de pedidos con usuarios, productos y validaciones.
 - **Usuarios**: Gestión de usuarios con validaciones de edad y email únicos.
+- En la carpeta **_sql/** están las BBDD que aún no se han migrado a backend silence
 
 ## Uso del Makefile
 
