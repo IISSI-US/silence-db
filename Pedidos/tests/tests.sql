@@ -41,7 +41,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN01', 'RN01: full_name no puede ser NULL', 'PASS');
 
-    CALL p_populate_orders();
+    CALL p_populate();
 
     INSERT INTO users (full_name, province, start_date) VALUES (NULL, 'Test', CURDATE());
 
@@ -55,7 +55,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN02', 'RN02: full_name debe ser único', 'PASS');
 
-    CALL p_populate_orders();
+    CALL p_populate();
 
     INSERT INTO users (full_name, province, start_date) VALUES ('Nombre Duplicado', 'Sevilla', CURDATE());
     INSERT INTO users (full_name, province, start_date) VALUES ('Nombre Duplicado', 'Huelva', CURDATE());
@@ -70,7 +70,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN03', 'RN03: price no puede ser NULL', 'PASS');
 
-    CALL p_populate_orders();
+    CALL p_populate();
 
     INSERT INTO products (description, price, stock) VALUES ('Test', NULL, 10);
 
@@ -84,7 +84,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN04', 'RN04: price debe ser >= 0', 'PASS');
 
-    CALL p_populate_orders();
+    CALL p_populate();
 
     INSERT INTO products (description, price, stock) VALUES ('Test', -1, 10);
 
@@ -98,7 +98,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN05', 'RN05: stock debe ser >= 0', 'PASS');
 
-    CALL p_populate_orders();
+    CALL p_populate();
 
     INSERT INTO products (description, price, stock) VALUES ('Test', 10, -5);
 
@@ -112,7 +112,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN06', 'RN06: amount no puede ser NULL', 'PASS');
 
-    CALL p_populate_orders();
+    CALL p_populate();
 
     INSERT INTO orders (user_id, product_id, amount, purchase_date)
         VALUES (1, 1, NULL, CURDATE());
@@ -127,7 +127,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN07', 'RN07: amount debe estar entre 1 y 10', 'PASS');
 
-    CALL p_populate_orders();
+    CALL p_populate();
 
     INSERT INTO orders (user_id, product_id, amount, purchase_date)
         VALUES (1, 1, 20, CURDATE());
@@ -142,7 +142,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN08', 'RN08: No se permiten compras en agosto', 'PASS');
 
-    CALL p_populate_orders();
+    CALL p_populate();
 
     INSERT INTO orders (user_id, product_id, amount, purchase_date)
         VALUES (1, 1, 2, '2019-08-10');
@@ -157,7 +157,16 @@ DELIMITER ;
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_run_tests()
 BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        CALL p_log_test('POPULATE', 'ERROR: El populate falló. No se ejecutaron los tests negativos.', 'ERROR');
+        SELECT * FROM test_results ORDER BY execution_time, test_id;
+        SELECT test_status, COUNT(*) AS total FROM test_results GROUP BY test_status;
+    END;
+
     DELETE FROM test_results;
+
+    CALL p_populate();
 
     CALL p_test_rn01_user_name_not_null();
     CALL p_test_rn02_user_name_unique();

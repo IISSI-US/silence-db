@@ -6,7 +6,7 @@
 USE HobbiesDynamicDB;
 
 DELIMITER //
-CREATE OR REPLACE PROCEDURE p_populate_hobbies_dynamic()
+CREATE OR REPLACE PROCEDURE p_populate()
 BEGIN
     DELETE FROM user_hobby_links;
     DELETE FROM hobbies;
@@ -48,4 +48,4 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL p_populate_hobbies_dynamic();
+CALL p_populate();

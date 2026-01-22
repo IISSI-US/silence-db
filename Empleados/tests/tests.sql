@@ -41,7 +41,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN01', 'RN01: name_emp debe ser único', 'PASS');
 
-    CALL p_populate_db();
+    CALL p_populate();
 
     INSERT INTO employees (department_id, boss_id, name_emp, salary, start_date, end_date, fee)
         VALUES (1, NULL, 'Pedro', 1500, '2024-01-01', NULL, 0.1);
@@ -56,7 +56,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN02', 'RN02: salary debe ser > 0', 'PASS');
 
-    CALL p_populate_db();
+    CALL p_populate();
 
     INSERT INTO employees (department_id, boss_id, name_emp, salary, start_date, end_date, fee)
         VALUES (2, NULL, 'Salario Negativo', -10, '2024-01-01', NULL, 0.1);
@@ -71,7 +71,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN03', 'RN03: fee debe estar entre 0 y 1', 'PASS');
 
-    CALL p_populate_db();
+    CALL p_populate();
 
     INSERT INTO employees (department_id, boss_id, name_emp, salary, start_date, end_date, fee)
         VALUES (2, NULL, 'Fee Invalido', 1200, '2024-01-01', NULL, 1.5);
@@ -86,7 +86,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN04', 'RN04: start_date < end_date', 'PASS');
 
-    CALL p_populate_db();
+    CALL p_populate();
 
     INSERT INTO employees (department_id, boss_id, name_emp, salary, start_date, end_date, fee)
         VALUES (2, NULL, 'Fecha Incorrecta', 1200, '2024-12-01', '2024-01-01', 0.1);
@@ -101,7 +101,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN05', 'RN05: Un empleado no puede ser su propio jefe', 'PASS');
 
-    CALL p_populate_db();
+    CALL p_populate();
 
     INSERT INTO employees (employee_id, department_id, boss_id, name_emp, salary, start_date, end_date, fee)
         VALUES (20, 1, 20, 'JefeDeSiMismo', 1500, '2024-01-01', NULL, 0.1);
@@ -116,7 +116,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN06', 'RN06: Máximo 5 empleados por departamento', 'PASS');
 
-    CALL p_populate_db();
+    CALL p_populate();
 
     -- Quinto empleado (permitido)
     INSERT INTO employees (department_id, boss_id, name_emp, salary, start_date, end_date, fee)
@@ -135,7 +135,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN07', 'RN07: La comisión no puede variar más de 0.2', 'PASS');
 
-    CALL p_populate_db();
+    CALL p_populate();
 
     UPDATE employees SET fee = 0.7 WHERE employee_id = 1;
 
@@ -148,7 +148,7 @@ CREATE OR REPLACE PROCEDURE p_test_rn08_default_start_date()
 BEGIN
     DECLARE v_date DATE;
 
-    CALL p_populate_db();
+    CALL p_populate();
 
     INSERT INTO employees (department_id, boss_id, name_emp, salary, start_date, end_date, fee)
         VALUES (2, NULL, 'SinFecha', 1200, NULL, NULL, 0.1);
@@ -169,7 +169,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN09', 'RN09: department_id debe existir', 'PASS');
 
-    CALL p_populate_db();
+    CALL p_populate();
 
     INSERT INTO employees (department_id, boss_id, name_emp, salary, start_date, end_date, fee)
         VALUES (99, NULL, 'Dep Inexistente', 1200, '2024-01-01', NULL, 0.1);
@@ -182,9 +182,18 @@ DELIMITER ;
 -- ORQUESTADOR
 -- =============================================================
 DELIMITER //
-CREATE OR REPLACE PROCEDURE p_run_employees_tests()
+CREATE OR REPLACE PROCEDURE p_run_tests()
 BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        CALL p_log_test('POPULATE', 'ERROR: El populate falló. No se ejecutaron los tests negativos.', 'ERROR');
+        SELECT * FROM test_results ORDER BY execution_time, test_id;
+        SELECT test_status, COUNT(*) AS total FROM test_results GROUP BY test_status;
+    END;
+
     DELETE FROM test_results;
+
+    CALL p_populate();
 
     CALL p_test_rn01_unique_name();
     CALL p_test_rn02_salary_positive();
@@ -201,4 +210,4 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL p_run_employees_tests();
+CALL p_run_tests();

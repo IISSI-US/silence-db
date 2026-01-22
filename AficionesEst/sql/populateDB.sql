@@ -6,7 +6,7 @@
 USE HobbiesStaticDB;
 
 DELIMITER //
-CREATE OR REPLACE PROCEDURE p_populate_hobbies()
+CREATE OR REPLACE PROCEDURE p_populate()
 BEGIN
     DELETE FROM user_hobbies;
     DELETE FROM users;
@@ -38,4 +38,4 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL p_populate_hobbies();
+CALL p_populate();

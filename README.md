@@ -14,6 +14,58 @@ Repositorio con múltiples proyectos de bases de datos usando el framework Silen
 - **Usuarios**: Gestión de usuarios con validaciones de edad y email únicos.
 - En la carpeta **_sql/** están las BBDD que aún no se han migrado a backend silence
 
+## Estructura de cada proyecto
+
+Cada proyecto tiene la siguiente estructura:
+
+```
+<Proyecto>/
+  sql/
+    createDB.sql      # Crea la BD y las tablas
+    populateDB.sql    # Inserta datos de prueba
+    loadDB.sql        # Script principal que carga toda la BD
+    queries.sql       # Consultas de ejemplo
+    ...               # Otros archivos SQL (funciones, triggers, etc.)
+  tests/
+    tests.sql         # Procedimientos de test (p_test_*)
+    runTests.sql      # Script para ejecutar los tests
+```
+
+## Ejecución de bases de datos y tests
+
+### Cargar una base de datos
+
+Para cargar una base de datos específica (crear tablas, insertar datos, etc.):
+
+```bash
+cd <Proyecto>/sql
+mariadb < loadDB.sql
+```
+
+### Ejecutar tests de un proyecto
+
+Los tests asumen que la base de datos ya está cargada:
+
+```bash
+# Primero cargar la BD
+cd <Proyecto>/sql
+mariadb < loadDB.sql
+
+# Luego ejecutar los tests
+cd ../tests
+mariadb < runTests.sql
+```
+
+### Ejecutar todos los tests
+
+Desde la raíz del proyecto:
+
+```bash
+mariadb < runAllTests.sql
+```
+
+Este comando ejecuta los tests de todos los proyectos de forma secuencial.
+
 ## Uso del Makefile
 
 El `Makefile` facilita la gestión de las bases de datos y tests de los proyectos Silence usando MariaDB directamente. Asume que los datos de conexión están en my.conf

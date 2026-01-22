@@ -41,7 +41,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN01', 'RN01: Edad mínima 18 años', 'PASS');
 
-    CALL p_populate_hobbies_dynamic();
+    CALL p_populate();
 
     INSERT INTO users (full_name, gender, age, email)
         VALUES ('Usuario Menor', 'MASCULINO', 17, 'menor@ejemplo.com');
@@ -56,7 +56,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN02', 'RN02: Email debe ser único', 'PASS');
 
-    CALL p_populate_hobbies_dynamic();
+    CALL p_populate();
 
     INSERT INTO users (full_name, gender, age, email)
         VALUES ('Correo Duplicado', 'FEMENINO', 30, 'druiz@us.es');
@@ -71,7 +71,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN03', 'RN03: No se pueden repetir aficiones por usuario', 'PASS');
 
-    CALL p_populate_hobbies_dynamic();
+    CALL p_populate();
 
     INSERT INTO user_hobby_links (user_id, hobby_id) VALUES (1, 3);
 
@@ -85,7 +85,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('FK01', 'FK01: user_id debe existir', 'PASS');
 
-    CALL p_populate_hobbies_dynamic();
+    CALL p_populate();
 
     INSERT INTO user_hobby_links (user_id, hobby_id) VALUES (999, 1);
 
@@ -99,7 +99,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('FK02', 'FK02: hobby_id debe existir', 'PASS');
 
-    CALL p_populate_hobbies_dynamic();
+    CALL p_populate();
 
     INSERT INTO user_hobby_links (user_id, hobby_id) VALUES (1, 999);
 
@@ -111,10 +111,22 @@ DELIMITER ;
 -- ORQUESTADOR
 -- =============================================================
 DELIMITER //
-CREATE OR REPLACE PROCEDURE p_run_hobbies_dynamic_tests()
+CREATE OR REPLACE PROCEDURE p_run_tests()
 BEGIN
+    -- Si los casos positivos fallan, no ejecutar los negativos
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        CALL p_log_test('POPULATE', 'ERROR: El populate falló. No se ejecutaron los tests negativos.', 'ERROR');
+        SELECT * FROM test_results ORDER BY execution_time, test_id;
+        SELECT test_status, COUNT(*) AS total FROM test_results GROUP BY test_status;
+    END;
+
     DELETE FROM test_results;
 
+    -- Ejecutar populate una sola vez para casos positivos
+    CALL p_populate();
+
+    -- Si llegamos aquí, el populate funcionó correctamente y se han pasado los tests positivos
     CALL p_test_rn01_age_adult();
     CALL p_test_rn02_unique_email();
     CALL p_test_rn03_unique_hobby_per_user();
@@ -126,4 +138,4 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL p_run_hobbies_dynamic_tests();
+CALL p_run_tests();

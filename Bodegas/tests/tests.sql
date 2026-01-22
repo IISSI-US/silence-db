@@ -41,7 +41,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN01', 'RN01: Los nombres de bodegas deben ser únicos', 'PASS');
 
-    CALL p_populate_wineries();
+    CALL p_populate();
 
     INSERT INTO wineries (winery_id, winery_name, origin_designation)
     VALUES (10, 'Bodegas El Sol', 'Rioja');
@@ -56,7 +56,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN02', 'RN02: Los vinos jóvenes respetan los límites de meses', 'PASS');
 
-    CALL p_populate_wineries();
+    CALL p_populate();
 
     INSERT INTO wines (wine_id, winery_id, wine_name, alcohol_percent)
     VALUES (20, 1, 'Vino Joven Invalido', 12.0);
@@ -74,7 +74,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN03', 'RN03: La graduación alcohólica debe estar entre 10 y 15', 'PASS');
 
-    CALL p_populate_wineries();
+    CALL p_populate();
 
     INSERT INTO wines (wine_id, winery_id, wine_name, alcohol_percent)
     VALUES (30, 1, 'Vino Fuera Rango', 9.0);
@@ -89,7 +89,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN04', 'RN04: Solo una cosecha por vino y año', 'PASS');
 
-    CALL p_populate_wineries();
+    CALL p_populate();
 
     INSERT INTO harvests (harvest_id, wine_id, harvest_year, quality)
     VALUES (10, 3, 2020, 'Duplicada');
@@ -104,7 +104,16 @@ DELIMITER ;
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_run_tests()
 BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        CALL p_log_test('POPULATE', 'ERROR: El populate falló. No se ejecutaron los tests negativos.', 'ERROR');
+        SELECT * FROM test_results ORDER BY execution_time, test_id;
+        SELECT test_status, COUNT(*) AS total FROM test_results GROUP BY test_status;
+    END;
+
     DELETE FROM test_results;
+
+    CALL p_populate();
 
     CALL p_test_rn01_unique_winery();
     CALL p_test_rn02_young_limits();

@@ -41,7 +41,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN01', 'RN01: Edad mínima 18 años', 'PASS');
 
-    CALL p_populate_hobbies();
+    CALL p_populate();
 
     INSERT INTO users (full_name, gender, age, email)
         VALUES ('Usuario Menor', 'MASCULINO', 17, 'menor@ejemplo.com');
@@ -56,7 +56,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN02', 'RN02: Email debe ser único', 'PASS');
 
-    CALL p_populate_hobbies();
+    CALL p_populate();
 
     INSERT INTO users (full_name, gender, age, email)
         VALUES ('Correo Duplicado', 'FEMENINO', 30, 'druiz@us.es');
@@ -71,7 +71,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN03', 'RN03: No se pueden repetir aficiones por usuario', 'PASS');
 
-    CALL p_populate_hobbies();
+    CALL p_populate();
 
     INSERT INTO user_hobbies (user_id, hobby) VALUES (1, 'DEPORTE');
 
@@ -83,9 +83,18 @@ DELIMITER ;
 -- ORQUESTADOR
 -- =============================================================
 DELIMITER //
-CREATE OR REPLACE PROCEDURE p_run_hobbies_tests()
+CREATE OR REPLACE PROCEDURE p_run_tests()
 BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        CALL p_log_test('POPULATE', 'ERROR: El populate falló. No se ejecutaron los tests negativos.', 'ERROR');
+        SELECT * FROM test_results ORDER BY execution_time, test_id;
+        SELECT test_status, COUNT(*) AS total FROM test_results GROUP BY test_status;
+    END;
+
     DELETE FROM test_results;
+
+    CALL p_populate();
 
     CALL p_test_rn01_age_adult();
     CALL p_test_rn02_unique_email();
@@ -96,4 +105,4 @@ BEGIN
 END //
 DELIMITER ;
 
-call p_run_hobbies_tests();
+call p_run_tests();

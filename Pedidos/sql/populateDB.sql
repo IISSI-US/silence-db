@@ -6,11 +6,15 @@
 USE OrdersDB;
 
 DELIMITER //
-CREATE OR REPLACE PROCEDURE p_populate_orders()
+CREATE OR REPLACE PROCEDURE p_populate()
 BEGIN
     DELETE FROM orders;
     DELETE FROM products;
     DELETE FROM users;
+
+    ALTER TABLE users AUTO_INCREMENT = 1;
+    ALTER TABLE products AUTO_INCREMENT = 1;
+    ALTER TABLE orders AUTO_INCREMENT = 1;
 
     INSERT INTO users (full_name, province, start_date) VALUES
         ('David Ruiz', 'Sevilla', '2018-05-18'),
@@ -49,4 +53,4 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL p_populate_orders();
+CALL p_populate();

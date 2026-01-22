@@ -5,7 +5,7 @@
 -- 
 
 DELIMITER //
-CREATE OR REPLACE PROCEDURE p_populate_db()
+CREATE OR REPLACE PROCEDURE p_populate()
 BEGIN
 	-- desactivar las restricciones de FK para poder borrar, la tabla de empleados tiene una FK a si misma.
 	SET FOREIGN_KEY_CHECKS = 0;
@@ -30,4 +30,4 @@ END;
 //
 DELIMITER ;
 
-CALL p_populate_db();
+CALL p_populate();

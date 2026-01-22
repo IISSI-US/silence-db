@@ -65,7 +65,16 @@ END //
 -- =============================================================
 CREATE OR REPLACE PROCEDURE p_run_tests()
 BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        CALL p_log_test('POPULATE', 'ERROR: El populate falló. No se ejecutaron los tests negativos.', 'ERROR');
+        SELECT * FROM test_results ORDER BY execution_time, test_id;
+        SELECT test_status, COUNT(*) AS total FROM test_results GROUP BY test_status;
+    END;
+
     DELETE FROM test_results;
+
+    CALL p_populate();
 
     CALL p_test_rn01_minimum_age();
     CALL p_test_rn02_unique_email();

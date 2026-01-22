@@ -1,34 +1,20 @@
 -- Script maestro para ejecutar los tests de todas las BD que tengan tests.sql
+-- NOTA: Este script debe ejecutarse desde el directorio raíz del proyecto
+-- Para ejecutar tests de una BD específica: cd <BD>/tests && mariadb < runTests.sql
+-- Para cargar solo la BD sin tests: cd <BD>/sql && mariadb < loadDB.sql
 
--- Aficiones Estáticas
-SOURCE AficionesEst/sql/loadDB.sql;
-CALL HobbiesStaticDB.p_run_hobbies_tests();
+\! cd AficionesEst/tests && mariadb < runTests.sql
 
--- Aficiones Dinámicas
-SOURCE AficionesDin/sql/loadDB.sql;
-CALL HobbiesDynamicDB.p_run_hobbies_dynamic_tests();
+\! cd AficionesDin/tests && mariadb < runTests.sql
 
--- Bodegas
-SOURCE Bodegas/sql/loadDB.sql;
-USE BodegasDB;
-CALL p_run_bodegas_tests();
+\! cd Bodegas/tests && mariadb < runTests.sql
 
--- Bodegas2
-SOURCE Bodegas2/sql/loadDB.sql;
-USE Bodegas2DB;
-CALL p_run_bodegas2_tests();
+\! cd Bodegas2/tests && mariadb < runTests.sql
 
--- Grados
-SOURCE Grados/sql/loadDB.sql;
-USE GradesDB;
-CALL p_run_grados_tests();
+\! cd Empleados/tests && mariadb < runTests.sql
 
--- Pedidos
-SOURCE Pedidos/sql/loadDB.sql;
-USE OrdersDB;
-CALL p_run_orders_tests();
+\! cd Grados/tests && mariadb < runTests.sql
 
--- Usuarios
-SOURCE Usuarios/sql/loadDB.sql;
-USE UsersDB;
-CALL p_run_users_tests();
+\! cd Pedidos/tests && mariadb < runTests.sql
+
+\! cd Usuarios/tests && mariadb < runTests.sql

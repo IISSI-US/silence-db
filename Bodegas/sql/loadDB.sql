@@ -2,4 +2,3 @@
 SELECT '>>> Creando BD BodegasDB';
 SOURCE createDB.sql;
 SOURCE populateDB.sql;
-SOURCE ../tests/tests.sql;

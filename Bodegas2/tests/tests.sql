@@ -41,7 +41,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN01', 'RN01: Los nombres de bodega deben ser únicos', 'PASS');
 
-    CALL p_populate_bodegas2();
+    CALL p_populate();
 
     INSERT INTO wineries (winery_id, winery_name, origin_designation)
         VALUES (10, 'Bodegas El Sol', 'Rioja');
@@ -56,7 +56,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN02', 'RN02: Límites de meses en vinos jóvenes', 'PASS');
 
-    CALL p_populate_bodegas2();
+    CALL p_populate();
 
     INSERT INTO young_wines (young_wine_id, winery_id, wine_name, alcohol_percent, barrel_months, bottle_months)
         VALUES ('jx', 1, 'Vino Joven Invalido', 12.0, 8, 10);
@@ -71,7 +71,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN02B', 'RN02: Límites de meses en vinos de crianza', 'PASS');
 
-    CALL p_populate_bodegas2();
+    CALL p_populate();
 
     INSERT INTO aged_wines (aged_wine_id, winery_id, wine_name, alcohol_percent, barrel_months, bottle_months)
         VALUES ('cy', 1, 'Crianza Invalida', 13.0, 4, 10);
@@ -86,7 +86,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN03', 'RN03: La graduación debe estar entre 10 y 15', 'PASS');
 
-    CALL p_populate_bodegas2();
+    CALL p_populate();
 
     INSERT INTO aged_wines (aged_wine_id, winery_id, wine_name, alcohol_percent, barrel_months, bottle_months)
         VALUES ('cx', 1, 'Vino Fuera Rango', 9.0, 12, 12);
@@ -101,7 +101,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN04', 'RN04: Solo una cosecha por vino y año', 'PASS');
 
-    CALL p_populate_bodegas2();
+    CALL p_populate();
 
     INSERT INTO harvests (harvest_id, aged_wine_id, harvest_year, quality)
         VALUES (30, 'c1', 2020, 'Duplicada');
@@ -116,7 +116,7 @@ BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         CALL p_log_test('RN05', 'RN05: Solo una FK (joven o crianza) en wine_grapes', 'PASS');
 
-    CALL p_populate_bodegas2();
+    CALL p_populate();
 
     INSERT INTO wine_grapes (wine_grape_id, young_wine_id, aged_wine_id, grape_id)
         VALUES (100, 'j1', 'c1', 1);
@@ -131,7 +131,16 @@ DELIMITER ;
 DELIMITER //
 CREATE OR REPLACE PROCEDURE p_run_tests()
 BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        CALL p_log_test('POPULATE', 'ERROR: El populate falló. No se ejecutaron los tests negativos.', 'ERROR');
+        SELECT * FROM test_results ORDER BY execution_time, test_id;
+        SELECT test_status, COUNT(*) AS total FROM test_results GROUP BY test_status;
+    END;
+
     DELETE FROM test_results;
+
+    CALL p_populate();
 
     CALL p_test_rn01_unique_winery();
     CALL p_test_rn02_age_limits();

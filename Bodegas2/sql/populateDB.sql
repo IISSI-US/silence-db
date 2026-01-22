@@ -6,7 +6,7 @@
 USE Bodegas2DB;
 
 DELIMITER //
-CREATE OR REPLACE PROCEDURE p_populate_bodegas2()
+CREATE OR REPLACE PROCEDURE p_populate()
 BEGIN
     SET FOREIGN_KEY_CHECKS = 0;
     DELETE FROM wine_grapes;
@@ -105,4 +105,4 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL p_populate_bodegas2();
+CALL p_populate();
