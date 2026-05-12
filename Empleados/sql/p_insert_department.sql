@@ -14,8 +14,8 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL p_populate_db();
-CALL p_insert_department('Economía', 'Almeria'); 
+-- CALL p_populate();
+-- CALL p_insert_department('Economía', 'Almeria'); 
 
 -- Insertar departamento duplicado:
 -- CALL p_insert_department ('Economía', 'Almeria'); 

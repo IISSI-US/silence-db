@@ -185,7 +185,7 @@ BEGIN
 		SET total = total + employee.salary; 
 	END LOOP; 
 	CLOSE cur_employees; 
-	RETURN sum; 
+	RETURN total; 
 END //
 DELIMITER ; 
 

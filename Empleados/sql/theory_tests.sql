@@ -15,9 +15,9 @@ CALL p_insert_employee(1, NULL, 'Helena', 5100, NULL, '2020-09-15', 0.2);
 
 select * from employees;
 
---Procedimiemnto p_igualar_comisiones: ejecutar las siguientes líneas una por una observando el resultado
+--Procedimiento p_equate_fees: ejecutar las siguientes líneas una por una observando el resultado
 select employee_id, fee from employees;
-CALL p_igualar_comisiones(); 
+CALL p_equate_fees(); 
 select employee_id, fee from employees;
 
 --Procedimiento p_raise_fee: ejecutar las siguientes líneas una por una observando el resultado

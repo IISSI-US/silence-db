@@ -19,6 +19,7 @@ END //
 DELIMITER ;
 
 -- OPCIÓN 2: Se permite realizar el cambio al valor máximo permitido
+/*
 DELIMITER //
 CREATE OR REPLACE TRIGGER t_change_fee_2
 BEFORE UPDATE ON employees FOR EACH ROW 
@@ -31,3 +32,4 @@ BEGIN
 	END IF; 
 END //
 DELIMITER ;
+*/

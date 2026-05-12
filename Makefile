@@ -16,10 +16,10 @@ load-all: $(addprefix load-,$(DBS))
 
 load-%:
 	@echo ">>> Cargando $*..."
-	@if [ -f "$*/sql/loadDB.sql" ]; then \
-		cd "$*/sql" && $(MYSQL) < loadDB.sql && cd ../.. && echo "✓ $* cargada" || (echo "✗ Error al cargar $*" && exit 1); \
+	@if [ -f "$*/sql/load_db.sql" ]; then \
+		cd "$*/sql" && $(MYSQL) < load_db.sql && cd ../.. && echo "✓ $* cargada" || (echo "✗ Error al cargar $*" && exit 1); \
 	else \
-		echo "✗ No se encontró loadDB.sql en $*/sql/"; exit 1; \
+		echo "✗ No se encontró load_db.sql en $*/sql/"; exit 1; \
 	fi
 
 export-all-diagrams:
